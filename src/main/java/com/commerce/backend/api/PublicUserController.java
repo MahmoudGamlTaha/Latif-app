@@ -3,6 +3,7 @@ package com.commerce.backend.api;
 
 import com.commerce.backend.constants.MessageType;
 import com.commerce.backend.converter.user.UserResponseConverter;
+import com.commerce.backend.helper.resHelper;
 import com.commerce.backend.model.entity.User;
 import com.commerce.backend.model.request.user.*;
 import com.commerce.backend.model.response.BasicResponse;
@@ -12,6 +13,7 @@ import com.commerce.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,6 +83,19 @@ public class PublicUserController extends PublicApiController {
     	response.setSuccess(true);
     	response.setResponse(map);
     	return new ResponseEntity<BasicResponse>(response, HttpStatus.OK);
+    }
+    @PostMapping(value = "/account/logout")
+    public ResponseEntity<BasicResponse> logout(Long user){
+    	if(this.userService.getCurrentUser() == null) {
+    		throw new UsernameNotFoundException("no user found");
+    	}
+    	boolean auth = this.userService.getCurrentUser().getId() != user ? false : true;
+    	if(!auth) {
+    		throw new UsernameNotFoundException("not authorized");
+    	}
+    	 boolean check = this.userService.logout(user);
+    	 BasicResponse response  = resHelper.res(check, true, MessageType.Data.getMessage(), null);
+    	 return new ResponseEntity<>(response, HttpStatus.OK);
     }
   
 }

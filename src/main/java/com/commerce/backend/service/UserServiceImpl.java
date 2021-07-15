@@ -6,6 +6,7 @@ import com.commerce.backend.dao.CityRepository;
 import com.commerce.backend.dao.ItemObjectCategoryRepository;
 import com.commerce.backend.dao.RoleRepository;
 import com.commerce.backend.dao.UserRepository;
+import com.commerce.backend.dao.VerificationTokenRepository;
 import com.commerce.backend.error.exception.InvalidArgumentException;
 import com.commerce.backend.error.exception.ResourceNotFoundException;
 import com.commerce.backend.helper.resHelper;
@@ -14,6 +15,7 @@ import com.commerce.backend.model.entity.Cites;
 import com.commerce.backend.model.entity.ItemObjectCategory;
 import com.commerce.backend.model.entity.Role;
 import com.commerce.backend.model.entity.User;
+import com.commerce.backend.model.entity.VerificationToken;
 import com.commerce.backend.model.request.user.PasswordResetRequest;
 import com.commerce.backend.model.request.user.RegisterUserRequest;
 import com.commerce.backend.model.request.user.UpdateUserAddressRequest;
@@ -24,6 +26,7 @@ import com.commerce.backend.model.response.user.UserResponse;
 import com.commerce.backend.security.UserDetailsImpl;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService {
     private final ItemObjectCategoryResponseConverter ItemObjectCategoryResponseConverter;
     private RoleRepository roleRepository;
     private final CityRepository cityRepository;
+    private final VerificationTokenRepository verficationToken;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -55,7 +59,8 @@ public class UserServiceImpl implements UserService {
                            ItemObjectCategoryRepository itemObjectCategoryRepository, 
                            ItemObjectCategoryResponseConverter itemObjectCategoryResponseConverter, 
                            RoleRepository roleRepository,
-                           CityRepository cityRepository) {
+                           CityRepository cityRepository,
+                           VerificationTokenRepository verficationTokenRepo) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userResponseConverter = userResponseConverter;
@@ -63,6 +68,7 @@ public class UserServiceImpl implements UserService {
         ItemObjectCategoryResponseConverter = itemObjectCategoryResponseConverter;
         this.roleRepository = roleRepository;
         this.cityRepository = cityRepository;
+        this.verficationToken = verficationTokenRepo;
     }
 
     @Override
@@ -325,8 +331,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BasicResponse createInterestCategories(List<Long> categories) {
-        User user = getCurrentUser();
+    public BasicResponse createInterestCategories(List<Long> categories, Long userId) {
+        User user = this.userRepository.findById(userId).orElse(null);
         if(user != null) {
         	categories.forEach(categoryId -> {
             ItemObjectCategory itemObjectCategory = itemObjectCategoryRepository.findById(categoryId).orElse(null);
@@ -411,7 +417,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean logout(Long id) {
-	
-		return false;
+	   VerificationToken token = this.verficationToken.findByUserId(id).orElse(null);
+	   Date date = token.getExpiryDate();
+	   date = DateUtils.addYears(date, -10);
+	   token.setExpiryDate(date);
+	   this.verficationToken.save(token);
+		return true;
 	}
 }

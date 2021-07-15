@@ -83,6 +83,7 @@ public class UserController extends ApiController {
     
     @PostMapping(value = "/account/logout")
     public ResponseEntity<BasicResponse> logout(Long user){
+    	
     	 boolean check = this.userService.logout(user);
     	 BasicResponse response  = resHelper.res(check, true, MessageType.Data.getMessage(), null);
     	 return new ResponseEntity<>(response, HttpStatus.OK);
