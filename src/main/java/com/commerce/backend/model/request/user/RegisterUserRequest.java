@@ -19,7 +19,7 @@ public class RegisterUserRequest {
 	private String email;
 
 	@NotBlank
-	@Size(min = 3, max = 15)
+	@Size(min = 9, max = 15)
 	@NumberFormat
 	private String phone;
 

@@ -44,7 +44,7 @@ try {
         // Continue filter execution
         chain.doFilter(request, response);
 }catch(TokenExpiredException ex) {
-	response.getWriter().write("\"msg\":\"Token Expired please login again\"");
+	response.getWriter().write("\"msg\":\"Token Expired please login again\",\"message\":\"your session expired\"");
 	response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 }
     }

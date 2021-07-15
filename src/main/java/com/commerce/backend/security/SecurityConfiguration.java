@@ -62,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                     .logout()
-                    .logoutUrl("/account/logout")
+                    .logoutUrl("/api/public/account/logout")
                     .and()
                     .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.verificationTokenRepository))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
