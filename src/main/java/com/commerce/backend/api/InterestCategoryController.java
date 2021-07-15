@@ -31,8 +31,8 @@ public class InterestCategoryController extends PublicApiController{
 
     @PostMapping(value = "/interest-categories/create")
     @ResponseBody
-    public ResponseEntity<BasicResponse> createInterestCategories(@RequestBody List<Long>categories) {
-        return new ResponseEntity<>(userService.createInterestCategories(categories), HttpStatus.OK);
+    public ResponseEntity<BasicResponse> createInterestCategories(@RequestBody List<Long>categories, Long userId) {
+        return new ResponseEntity<>(userService.createInterestCategories(categories, userId), HttpStatus.OK);
     }
 
     @PostMapping(value = "/interest-categories/remove")
