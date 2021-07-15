@@ -112,6 +112,9 @@ public class User {
   @OneToMany
   @JoinColumn(name = "user_id")
   private Set<UserReportedAds> userReportedAds;
+ 
+  @Column(name ="device")
+  private String device;
   
   @JsonManagedReference
   @OneToMany

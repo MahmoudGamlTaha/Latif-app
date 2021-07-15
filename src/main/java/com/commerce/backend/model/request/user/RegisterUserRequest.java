@@ -19,7 +19,7 @@ public class RegisterUserRequest {
 	private String email;
 
 	@NotBlank
-	@Size(min = 3, max = 12)
+	@Size(min = 3, max = 15)
 	@NumberFormat
 	private String phone;
 
@@ -44,4 +44,6 @@ public class RegisterUserRequest {
 	private String latitude;
 	
 	private String address;
+	
+	private String device;
 }

@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
         user.setRegistrationDate(new Date());
         user.setAddress(registerUserRequest.getAddress());
+        user.setDevice(registerUserRequest.getDevice());
         Cites city= this.cityRepository.findById(registerUserRequest.getCity()).orElse(null);
         if(city != null) {
         user.setCity(city);

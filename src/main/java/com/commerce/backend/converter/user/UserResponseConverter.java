@@ -33,7 +33,9 @@ public class UserResponseConverter implements Function<User, UserResponse> {
 	        userResponse.setAvatar(user.getAvatar());
 	        userResponse.setActive(user.isActive());
 	     //   userResponse.setRole(user.getRoles());
+	        if(user.getAds() != null) {
 	        userResponse.setProdCount(user.getAds().size());
+	        }
     	}
         return userResponse;
     	
