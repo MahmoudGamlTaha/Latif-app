@@ -331,8 +331,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BasicResponse createInterestCategories(List<Long> categories) {
-        User user = getCurrentUser();
+    public BasicResponse createInterestCategories(List<Long> categories, Long userId) {
+        User user = this.userRepository.findById(userId).orElse(null);
         if(user != null) {
         	categories.forEach(categoryId -> {
             ItemObjectCategory itemObjectCategory = itemObjectCategoryRepository.findById(categoryId).orElse(null);

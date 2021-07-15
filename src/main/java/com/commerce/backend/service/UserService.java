@@ -55,7 +55,7 @@ public interface UserService {
     
     BasicResponse getUserInterestCategories();
 
-    BasicResponse createInterestCategories(List<Long> categoryId);
+    BasicResponse createInterestCategories(List<Long> categoryId, Long userId);
 
     BasicResponse removeInterestCategories(Long categoryId);
 
