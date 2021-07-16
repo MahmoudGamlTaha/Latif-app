@@ -3,7 +3,8 @@ package com.commerce.backend.model.response.user;
 import java.util.Date;
 import java.util.Set;
 
-import com.commerce.backend.model.entity.Cites;
+import com.commerce.backend.model.dto.CityDTO;
+import com.commerce.backend.model.dto.CountryDTO;
 import com.commerce.backend.model.entity.Role;
 import com.commerce.backend.model.entity.UserRole;
 
@@ -16,7 +17,8 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String address;
-    private Cites city;
+    private CityDTO city;
+    private CountryDTO country;
     private String state;
     private String zip;
     private String phone;

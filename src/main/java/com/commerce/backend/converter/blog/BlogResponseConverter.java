@@ -21,6 +21,7 @@ public class BlogResponseConverter implements Function<Blog, BlogResponse> {
 		    if(blog.getCategory() != null) {
 		    blogResponse.setCategory(blog.getCategory().getName());
 		    blogResponse.setCategory_id(blog.getCategory().getId());
+		    blogResponse.setCategoryAr(blog.getCategory().getNameAr());
 		    }
 		    if(blog.getBlogImage() != null) {
 		    	blogResponse.setImages(new HashSet<String>());

@@ -21,7 +21,7 @@ public class UpdateUserRequest {
     @Size(min = 3, max = 26)
     private String lastName;
 
-    @Pattern(regexp = "[0-9]+")
+  //  @Pattern(regexp = "[0-9]+")
     @Size(min = 9, max = 15)
     private String phone;
 
