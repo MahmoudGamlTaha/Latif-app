@@ -39,6 +39,7 @@ public class UserController extends ApiController {
     }
 
     @PutMapping(value = "/account/update")
+    @ResponseBody
     public ResponseEntity<BasicResponse> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
         return new ResponseEntity<>(userService.updateUser(updateUserRequest), HttpStatus.OK);
     }

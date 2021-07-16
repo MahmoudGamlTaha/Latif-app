@@ -124,20 +124,20 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 		}
 		List<Object> extraInfo = new ArrayList<>();
 		if(entity.getType() == AdsType.PETS) {
-			extraInfo.add(new KeyResponse("bread",FieldsNames.bread, FieldsNames.bread_ar, checkValue(((UserPetAds)entity).getBreed(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("food",FieldsNames.food, FieldsNames.food_ar, checkValue(((UserPetAds)entity).getFood(), SystemConstant.STRING)));
-			extraInfo.add(new KeyResponse("diseasesOrDisabilities",FieldsNames.diseasesOrDisabilities, FieldsNames.diseasesOrDisabilities_ar, checkValue(((UserPetAds)entity).getDiseasesDisabilities(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("diseasesOrDisabilitiesDesc",FieldsNames.diseasesOrDisabilitiesDesc, FieldsNames.diseasesOrDisabilitiesDesc_ar, checkValue(((UserPetAds)entity).getDiseasesDisabilitiesDesc(), SystemConstant.STRING)));
-			extraInfo.add(new KeyResponse("Neutering",FieldsNames.Neutering, FieldsNames.Neutering_ar, checkValue(((UserPetAds)entity).getNeutering(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("training",FieldsNames.training, FieldsNames.training_ar, ((UserPetAds)entity).getTraining()));
-			extraInfo.add(new KeyResponse("playWithKids",FieldsNames.PlayWithKids, FieldsNames.PlayWithKids_ar, checkValue(((UserPetAds)entity).getPlayWithKids(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("passport",FieldsNames.Passport, FieldsNames.Passport_ar, checkValue(((UserPetAds)entity).getPassport(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("vaccinationCertificate",FieldsNames.VaccinationCertificate, FieldsNames.VaccinationCertificate_ar, checkValue(((UserPetAds)entity).getVaccinationCertifcate(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("weaned",FieldsNames.weaned, FieldsNames.weaned_ar, checkValue(((UserPetAds)entity).getWeaned(), SystemConstant.BOOLEAN)));
-			extraInfo.add(new KeyResponse("stock",FieldsNames.Stock, FieldsNames.Stock_ar, ((UserPetAds)entity).getStock()));
-			extraInfo.add(new KeyResponse("selling_type",FieldsNames.selling_type, FieldsNames.selling_type_ar, ((UserPetAds)entity).getSelling_type()));
+			extraInfo.add(new KeyResponse("bread",FieldsNames.bread, FieldsNames.bread_ar, checkValue(((UserPetAds)entity).getBreed(), SystemConstant.BOOLEAN),checkValue(((UserPetAds)entity).getBreed(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("food",FieldsNames.food, FieldsNames.food_ar, checkValue(((UserPetAds)entity).getFood(), SystemConstant.STRING),checkValue(((UserPetAds)entity).getFood(), SystemConstant.STRING)));
+			extraInfo.add(new KeyResponse("diseasesOrDisabilities",FieldsNames.diseasesOrDisabilities, FieldsNames.diseasesOrDisabilities_ar, checkValue(((UserPetAds)entity).getDiseasesDisabilities(), SystemConstant.BOOLEAN),checkValue(((UserPetAds)entity).getDiseasesDisabilities(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("diseasesOrDisabilitiesDesc",FieldsNames.diseasesOrDisabilitiesDesc, FieldsNames.diseasesOrDisabilitiesDesc_ar, checkValue(((UserPetAds)entity).getDiseasesDisabilitiesDesc(), SystemConstant.STRING),checkValue(((UserPetAds)entity).getDiseasesDisabilitiesDesc(), SystemConstant.STRING)));
+			extraInfo.add(new KeyResponse("Neutering",FieldsNames.Neutering, FieldsNames.Neutering_ar, checkValue(((UserPetAds)entity).getNeutering(), SystemConstant.BOOLEAN),checkValue(((UserPetAds)entity).getNeutering(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("training",FieldsNames.training, FieldsNames.training_ar, checkValue(((UserPetAds)entity).getTraining(), SystemConstant.STRING), checkValue(((UserPetAds)entity).getTraining(), SystemConstant.STRING)));
+			extraInfo.add(new KeyResponse("playWithKids",FieldsNames.PlayWithKids, FieldsNames.PlayWithKids_ar, checkValue(((UserPetAds)entity).getPlayWithKids(), SystemConstant.BOOLEAN),checkValue(((UserPetAds)entity).getPlayWithKids(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("passport",FieldsNames.Passport, FieldsNames.Passport_ar, checkValue(((UserPetAds)entity).getPassport(), SystemConstant.BOOLEAN), checkValue(((UserPetAds)entity).getPassport(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("vaccinationCertificate",FieldsNames.VaccinationCertificate, FieldsNames.VaccinationCertificate_ar, checkValue(((UserPetAds)entity).getVaccinationCertifcate(), SystemConstant.BOOLEAN),checkValue(((UserPetAds)entity).getVaccinationCertifcate(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("weaned",FieldsNames.weaned, FieldsNames.weaned_ar, checkValue(((UserPetAds)entity).getWeaned(), SystemConstant.BOOLEAN), checkValue(((UserPetAds)entity).getWeaned(), SystemConstant.BOOLEAN)));
+			extraInfo.add(new KeyResponse("stock",FieldsNames.Stock, FieldsNames.Stock_ar, ((UserPetAds)entity).getStock(), ((UserPetAds)entity).getStock()));
+			extraInfo.add(new KeyResponse("selling_type",FieldsNames.selling_type, FieldsNames.selling_type_ar, ((UserPetAds)entity).getSelling_type(), ((UserPetAds)entity).getSelling_type()));
 		    if(((UserPetAds)entity).getSubCategory() != null) {
-			extraInfo.add(new KeyResponse("sub_cat",FieldsNames.catType, FieldsNames.catType_ar, ((UserPetAds)entity).getSubCategory().getNameAr()));
+			extraInfo.add(new KeyResponse("sub_cat",FieldsNames.catType, FieldsNames.catType_ar,((UserPetAds)entity).getSubCategory().getName(), ((UserPetAds)entity).getSubCategory().getNameAr()));
 		    }
 			
 			PetCategory category = (PetCategory)(entity).getCategory();
@@ -147,11 +147,11 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 				userAdsVo.setCategoryNameAr(category.getNameAr());
 				userAdsVo.setCategoryId(category.getId());
 				if(categoryName.equalsIgnoreCase("Dogs")){
-					extraInfo.add(new KeyResponse("barkingProblem",FieldsNames.barkingProblem, FieldsNames.barkingProblem_ar, checkValue(((UserPetAds)entity).getBarkingProblem(), SystemConstant.BOOLEAN)));
+					extraInfo.add(new KeyResponse("barkingProblem",FieldsNames.barkingProblem, FieldsNames.barkingProblem_ar, checkValue(((UserPetAds)entity).getBarkingProblem(), SystemConstant.BOOLEAN), checkValue(((UserPetAds)entity).getBarkingProblem(), SystemConstant.BOOLEAN)));
 				}
 			}
 		}else if(entity.getType() == AdsType.SERVICE) {
-			extraInfo.add(new KeyResponse("AllowAtHome",FieldsNames.AllowAtHome, FieldsNames.AllowAtHome_ar, ((UserServiceAds)entity).getAllowServiceAtHome()));
+			extraInfo.add(new KeyResponse("AllowAtHome",FieldsNames.AllowAtHome, FieldsNames.AllowAtHome_ar,checkValue(((UserServiceAds)entity).getAllowServiceAtHome(), SystemConstant.BOOLEAN) ,checkValue(((UserServiceAds)entity).getAllowServiceAtHome(), SystemConstant.BOOLEAN)));
 			ServiceCategory category = (ServiceCategory)((UserServiceAds)entity).getCategory();
 			String categoryName = category == null ?null:category.getName();
 			if(categoryName != null) {
@@ -159,11 +159,11 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 				userAdsVo.setCategoryNameAr(category.getNameAr());
 				userAdsVo.setCategoryId(category.getId());
 				if(categoryName.equalsIgnoreCase("delivery")){
-					extraInfo.add(new KeyResponse("driver_method",FieldsNames.driver_method, FieldsNames.driver_method_ar, ((UserServiceAds)entity).getDriverMethods()));
+					extraInfo.add(new KeyResponse("driver_method",FieldsNames.driver_method, FieldsNames.driver_method_ar, ((UserServiceAds)entity).getDriverMethods(), ((UserServiceAds)entity).getDriverMethods()));
 				}
 			}
 		}else if(entity.getType() == AdsType.PET_CARE) {
-			extraInfo.add(new KeyResponse("AllowAtHome",FieldsNames.AllowAtHome, FieldsNames.AllowAtHome_ar, ((UserMedicalAds)entity).getAllowServiceAtHome()));
+			extraInfo.add(new KeyResponse("AllowAtHome",FieldsNames.AllowAtHome, FieldsNames.AllowAtHome_ar, ((UserMedicalAds)entity).getAllowServiceAtHome(),((UserMedicalAds)entity).getAllowServiceAtHome()));
 			try {
 			MedicalCategory category = (MedicalCategory)((UserMedicalAds)entity).getCategory();
 			
@@ -177,9 +177,9 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
             	ex.printStackTrace();
 			}
 		}else if(entity.getType() == AdsType.ACCESSORIES) {
-			extraInfo.add(new KeyResponse("allowAtHome",FieldsNames.AllowAtHome, FieldsNames.AllowAtHome_ar, ((UserAccAds)entity).getAllowServiceAtHome()));
-			extraInfo.add(new KeyResponse("used",FieldsNames.used, FieldsNames.used_ar, ((UserAccAds)entity).getUsed()));
-			extraInfo.add(new KeyResponse("Stock",FieldsNames.Stock, FieldsNames.Stock_ar, ((UserAccAds)entity).getStock()));
+			extraInfo.add(new KeyResponse("allowAtHome",FieldsNames.AllowAtHome, FieldsNames.AllowAtHome_ar, ((UserAccAds)entity).getAllowServiceAtHome(), ((UserAccAds)entity).getAllowServiceAtHome()));
+			extraInfo.add(new KeyResponse("used",FieldsNames.used, FieldsNames.used_ar, ((UserAccAds)entity).getStock(), ((UserAccAds)entity).getStock()));
+			extraInfo.add(new KeyResponse("Stock",FieldsNames.Stock, FieldsNames.Stock_ar, ((UserAccAds)entity).getStock(),((UserAccAds)entity).getStock()));
 			ItemCategory category = (ItemCategory)((UserAccAds)entity).getCategory();
 			String categoryName = category == null ?null:category.getName();
 			if(categoryName != null) {

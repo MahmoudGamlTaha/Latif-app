@@ -11,12 +11,17 @@ public class KeyResponse {
     private String name;
     private String name_ar;
     private Object value;
+    private Object value_ar;
 
-    public KeyResponse(String fieldNameKey,String name, String name_ar, Object value){
+    public KeyResponse(String fieldNameKey,String name, String name_ar, Object value, Object value_ar){
     	this.code  =fieldNameKey;
         this.name = name;
         this.name_ar = name_ar;
         this.value = value;
+        this.value_ar = value_ar;
+        if(this.value_ar == null) {
+        	this.value_ar = this.value;
+        }
     }
   
 }

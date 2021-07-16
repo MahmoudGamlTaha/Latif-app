@@ -1,5 +1,10 @@
 package com.commerce.backend.converter.user;
 
+import com.commerce.backend.model.dto.CityDTO;
+import com.commerce.backend.model.dto.CountryDTO;
+import com.commerce.backend.model.dto.CountryVO;
+import com.commerce.backend.model.entity.Cites;
+import com.commerce.backend.model.entity.Country;
 import com.commerce.backend.model.entity.User;
 import com.commerce.backend.model.response.user.UserResponse;
 
@@ -21,7 +26,13 @@ public class UserResponseConverter implements Function<User, UserResponse> {
 	        userResponse.setLastName(lname);
 	        String address = user.getAddress() == null? "" : user.getAddress();
 	        userResponse.setAddress(address);
-	        userResponse.setCity(user.getCity());
+	        Cites city = user.getCity();
+	        CityDTO cityDto = this.applyCityDto(city);
+	        if(city!= null) {
+	        	CountryDTO countryDto =this.applyCountryDto(city.getCountry());
+	        	userResponse.setCountry(countryDto);
+	        }
+	        userResponse.setCity(cityDto);
 	        userResponse.setState(user.getState());
 	        userResponse.setZip(user.getZip());
 	        userResponse.setPhone(user.getMobile());
@@ -39,5 +50,25 @@ public class UserResponseConverter implements Function<User, UserResponse> {
     	}
         return userResponse;
     	
+    }
+    private CityDTO applyCityDto(Cites city) {
+    	CityDTO cityDto = new CityDTO();
+    	if(city == null) {
+    		return cityDto;
+    	}
+    	cityDto.setId(city.getId());
+    	cityDto.setNameAr(city.getCityAr());
+    	cityDto.setNameEn(city.getCityEn());
+    	return cityDto;
+    }
+    private CountryDTO applyCountryDto(Country country) {
+    	CountryDTO countryVo = new CountryDTO();
+    	if(country == null) {
+    		return countryVo;
+    	}
+    	countryVo.setNameAr(country.getNameAr());
+    	countryVo.setNameEn(country.getNameEn());
+        countryVo.setId(country.getId());
+    	return countryVo;
     }
 }

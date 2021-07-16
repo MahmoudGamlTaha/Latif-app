@@ -19,6 +19,7 @@ public class BlogResponse {
     private Long id;
     private String title;
     private String category;
+    private String categoryAr;
     private Long   category_id;
     private String description;
     private String image;
@@ -31,8 +32,10 @@ public class BlogResponse {
     public BlogResponse(Blog blog) {
         this.id = blog.getId();
         this.title = blog.getTitle();
+       
         if(blog.getCategory() != null) {
-        this.category = blog.getCategory().getName();
+          this.category = blog.getCategory().getName();
+          this.categoryAr = blog.getCategory().getNameAr();
         }
         if(blog.getBlogImage() != null) {
         	this.images = new HashSet<String>();

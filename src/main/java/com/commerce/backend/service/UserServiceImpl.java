@@ -176,13 +176,14 @@ public class UserServiceImpl implements UserService {
                 if(updateUserRequest.getEmail() != null) {
                     user.setEmail(updateUserRequest.getEmail());
                 }
+                if(updateUserRequest.getCity() != null) {
                 Cites city= this.cityRepository.findById(updateUserRequest.getCity()).orElse(null);
                 if(city != null) {
                 user.setCity(city);
                 user.setCityName(city.getCityEn());
                 user.setCountry(city.getCountry().getNameAr());
                 }        
-               
+                }
                 if(updateUserRequest.getAddress() != null) {
                     user.setAddress(updateUserRequest.getAddress());
                 }

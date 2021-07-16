@@ -10,7 +10,7 @@
   {"name": "breed", "type": "string","label": "Breed", "label_ar":"التربية", "required": true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "stock", "type": "Integer","label": "Stock","label_ar":"الكمية", "required": true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "weaned", "type": "boolean","label": "Weaned","label_ar":"مفطوم", "required": true,"requiredcond":"selling_type==\"Selling\""},
-  {"name": "neutering", "type": "boolean","label": "Neutering","label_ar":"مخصي", "required": true,"show":[{"key" : "category", "value":["3","8"]}],"requiredcond":"selling_type==\"Selling\""},
+  {"name": "neutering", "type": "boolean","label": "Neutering","label_ar":"مخصي", "required": true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "vaccinationCertificate", "type": "boolean","label": "Vaccination Certificate","label_ar":"التطعيم", "required": true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "training", "type": "select","label": "Training","label_ar":"التدريب", "required": true, "options":[{"label":"Litter box", "code":"LITTER_BOX"}, {"label":"Guarding", "code":"GUARDING"}], "multi":true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "passport", "type": "boolean","label": "Passport","label_ar":"لديه باسبور", "required": false,"requiredcond":"selling_type==\"Selling\""},
@@ -20,7 +20,8 @@
   {"name": "food", "type": "dropdown","label": "Food","label_ar":"نوع الاكل", "required": true, "options":[{"label" : "Dry", "code":"DRY"}, {"label" : "Wet", "code":"WET"}, {"label" : "Home cooked", "code":"HOME_COOKED"}], "multi":true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "images", "type": "files","label": "Pet Images", "label_ar":"الصور", "required": false,"requiredcond":""},
   {"name": "longitude", "type": "map","label": "Longitude", "required": true,"requiredcond":""},
-  {"name": "latitude", "type": "map","label": "Latitude", "required": true,"requiredcond":""}
+  {"name": "latitude", "type": "map","label": "Latitude", "required": true,"requiredcond":""},
+  {"name": "barkingProblem", "type": "boolean", "label": "Barking Problem", "required": false,"show":[{"key" : "category", "value":["3"]}],"requiredcond":""}
 ],
  "url": "/api/public/ads/create?type=PETS"
 } 

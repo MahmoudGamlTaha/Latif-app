@@ -99,7 +99,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			throws IOException, ServletException {
 	   response.setContentType("application/json");
 	   response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	   response.getWriter().write("{\"msg\":\"Wrong UserName or password\"}");
+	   response.getWriter().write("{\"message\":\"Wrong UserName or password\"}");
    }
     
     private Date calculateExpiryDate() {
