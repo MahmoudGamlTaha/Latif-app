@@ -14,11 +14,11 @@ public class UpdateUserRequest {
     private Long id ;
 
    // @Pattern(regexp = "^[a-zA-Z\\s]+$")
-    @Size(min = 3, max = 26)
+    @Size(min = 3, max = 50)
     private String firstName;
 
     //@Pattern(regexp = "^[a-zA-Z\\s]+$")
-    @Size(min = 3, max = 26)
+    @Size(min = 3, max = 50)
     private String lastName;
 
   //  @Pattern(regexp = "[0-9]+")
