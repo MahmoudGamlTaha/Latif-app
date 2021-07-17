@@ -57,8 +57,8 @@ public class UserResponseConverter implements Function<User, UserResponse> {
     		return cityDto;
     	}
     	cityDto.setId(city.getId());
-    	cityDto.setNameAr(city.getCityAr());
-    	cityDto.setNameEn(city.getCityEn());
+    	cityDto.setCityAr(city.getCityAr());
+    	cityDto.setCityEn(city.getCityEn());
     	return cityDto;
     }
     private CountryDTO applyCountryDto(Country country) {
