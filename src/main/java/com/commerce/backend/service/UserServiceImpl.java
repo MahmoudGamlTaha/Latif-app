@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -423,6 +424,12 @@ public class UserServiceImpl implements UserService {
 	   date = DateUtils.addYears(date, -10);
 	   token.setExpiryDate(date);
 	   this.verficationToken.save(token);
+	   SecurityContextHolder.clearContext();
 		return true;
+	}
+
+	@Override
+	public User findById(Long id) {
+		return this.userRepository.findById(id).orElse(null);
 	}
 }

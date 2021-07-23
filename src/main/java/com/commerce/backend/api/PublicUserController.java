@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -86,16 +87,35 @@ public class PublicUserController extends PublicApiController {
     }
     @PostMapping(value = "/account/logout")
     public ResponseEntity<BasicResponse> logout(Long user){
-    	if(this.userService.getCurrentUser() == null) {
-    		throw new UsernameNotFoundException("no user found");
-    	}
-    	boolean auth = this.userService.getCurrentUser().getId() != user ? false : true;
-    	if(!auth) {
-    		throw new UsernameNotFoundException("not authorized");
-    	}
+         this.checkAuth(user);
     	 boolean check = this.userService.logout(user);
     	 BasicResponse response  = resHelper.res(check, true, MessageType.Data.getMessage(), null);
     	 return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping(value = "/account/details")
+    public ResponseEntity<BasicResponse> getUserById(@RequestParam Long id){
+    	this.checkAuth(id);
+    	Object resObj = null;
+    	HttpStatus status = HttpStatus.BAD_REQUEST;
+    	if(this.userService.isAdmin() || this.userService.getCurrentUser().getId() != id) {
+    		resObj = this.userVOConverter.apply(this.userService.findById(id));
+    		status = HttpStatus.OK;
+    	}
+    	 BasicResponse response  = resHelper.res(resObj, true, MessageType.Data.getMessage(), null);
+    	 return new ResponseEntity<>(response, status);
+    }
+    private boolean checkAuth(Long user) {
+    	if(this.userService.getCurrentUser() == null) {
+    		throw new UsernameNotFoundException("no user found");
+    	}
+    	  boolean auth = this.userService.getCurrentUser().getId() != user ? false : true;
+          if(!auth)
+    	    auth = (this.userService.isAdmin()); 
+    	
+          if(!auth) {
+    		throw new UsernameNotFoundException("not authorized");
+    	}
+    	return auth;
     }
   
 }
