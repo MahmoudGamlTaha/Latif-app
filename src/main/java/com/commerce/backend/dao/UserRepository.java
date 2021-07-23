@@ -35,4 +35,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying(clearAutomatically = true)
     @Query(value="Update users SET active = :active where id = :user_id", nativeQuery = true)
     Integer activateUser(Long user_id, boolean active);
+   
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE users SET ads_poser =?2 WHERE user_id = ?1", nativeQuery = true)
+    Integer stopResumeUserPostAds(Long user_id, boolean active);
 }

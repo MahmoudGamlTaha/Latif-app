@@ -432,4 +432,13 @@ public class UserServiceImpl implements UserService {
 	public User findById(Long id) {
 		return this.userRepository.findById(id).orElse(null);
 	}
+
+	@Override
+	public Object stopUserAdPoser(long user_id, boolean poser) {
+		Object obj = new Object();
+		if(isAdmin()) {
+		obj = this.userRepository.stopResumeUserPostAds(user_id, poser);
+		}
+		return obj;
+	}
 }
