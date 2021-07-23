@@ -46,7 +46,9 @@ public interface UserService {
     boolean isAdmin();
 
     User getCurrentUser();
-
+    
+    Object stopUserAdPoser(long user_id, boolean poser);
+    
     boolean isAuthorized(User user);
     
     boolean logout(Long id);

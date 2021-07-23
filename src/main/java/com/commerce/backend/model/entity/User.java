@@ -116,6 +116,9 @@ public class User {
   @Column(name ="device")
   private String device;
   
+  @Column(name = "ads_poser")
+  private Boolean adsPoser;
+  
   @JsonManagedReference
   @OneToMany
   @JoinColumn(name = "user_id")

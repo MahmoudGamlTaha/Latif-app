@@ -104,7 +104,14 @@ public class PublicUserController extends PublicApiController {
     	 BasicResponse response  = resHelper.res(resObj, true, MessageType.Data.getMessage(), null);
     	 return new ResponseEntity<>(response, status);
     }
-    private boolean checkAuth(Long user) {
+    @PostMapping(value = "/account/suspend")
+    public ResponseEntity<BasicResponse> suspendUser(Long user_id, Boolean poser){
+       Object retValue = this.userService.stopUserAdPoser(user_id, poser);	
+       BasicResponse res = resHelper.res(retValue, true, MessageType.Success.getMessage(), null);
+       return new ResponseEntity<>(res, HttpStatus.OK);  
+    }
+    
+    private boolean checkAuth(Long user, boolean active) {
     	if(this.userService.getCurrentUser() == null) {
     		throw new UsernameNotFoundException("no user found");
     	}
