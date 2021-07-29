@@ -19,11 +19,16 @@ public class ItemObjectCategoryVO {
     private Integer type;
     private Boolean isExternalLink;
     private ItemObjectCategoryResponse parent;
+    private Boolean ShowInterest;
     public ItemObjectCategoryVO(ItemObjectCategory entity) {
     	this.id = entity.getId();
     	this.icon = entity.getIcon();
     	this.name = entity.getName();
+    	this.nameAr = entity.getNameAr();
+    	this.ShowInterest = entity.getShowInterest();
     	this.type = entity.getType();
+    	this.iconSelect = entity.getIcon_select();
+    	this.icon = entity.getIcon();
     	this.nameAr = entity.getNameAr();
    // 	this.isExternalLink = entity.getIsExternalLink();
    

@@ -121,7 +121,7 @@ public class PublicUserController extends PublicApiController {
     	    auth = (this.userService.isAdmin()); 
     	
           if(!auth) {
-    		throw new UsernameNotFoundException("not authorized");
+    		throw new UsernameNotFoundException("Not Authorized");
     	}
     	return auth;
     }

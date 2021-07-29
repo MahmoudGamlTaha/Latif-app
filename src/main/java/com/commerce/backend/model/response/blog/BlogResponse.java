@@ -36,6 +36,7 @@ public class BlogResponse {
         if(blog.getCategory() != null) {
           this.category = blog.getCategory().getName();
           this.categoryAr = blog.getCategory().getNameAr();
+          this.category_id = blog.getCategory().getId();
         }
         if(blog.getBlogImage() != null) {
         	this.images = new HashSet<String>();
