@@ -88,7 +88,9 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 		userAdsVo.setUpdated_at(entity.getUpdatedAt());
 		userAdsVo.setExternal_link(Boolean.parseBoolean(checkValue(entity.getExternalLink(), SystemConstant.BOOLEAN).toString()));
 		userAdsVo.setCity(entity.getCity());
-		Hibernate.initialize(entity.getUserAdsImage());
+	//	synchronized(entity) {
+		//Hibernate.initialize(entity.getUserAdsImage());
+	//	}
 		Set<UserAdsImage> images = entity.getUserAdsImage();
 		if(images != null) {
 			Set<UserAdsImageVO> imageVos = new HashSet<UserAdsImageVO>();

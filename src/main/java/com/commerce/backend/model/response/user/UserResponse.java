@@ -30,5 +30,5 @@ public class UserResponse {
     private Set<Role> role;
     private Set<UserRole> roles;
     private Integer prodCount;
-    
+    private Boolean AdsPoserStatus;
 }

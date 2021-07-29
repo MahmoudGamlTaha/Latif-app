@@ -38,7 +38,7 @@ public interface CustomUserAdsRepo extends JpaRepository<UserAds, Long> {
 
 
     Page<UserAds> findUserAdsByType(String type, Pageable pageable);
-    @Query("SELECT ud from UserAds ud where id = ?1")
+    @Query("SELECT ud FROM UserAds ud  LEFT JOIN FETCH ud.userAdsImage userAdsImage where ud.id = ?1")
     Optional<UserAds> findById(Long id);
     
     Long countByActiveTrue();
