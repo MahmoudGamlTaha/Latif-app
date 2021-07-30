@@ -30,6 +30,7 @@ public class ItemObjectCategoryVO {
     	this.iconSelect = entity.getIcon_select();
     	this.icon = entity.getIcon();
     	this.nameAr = entity.getNameAr();
+    	this.ShowInterest = entity.getShowInterest();
    // 	this.isExternalLink = entity.getIsExternalLink();
    
     }

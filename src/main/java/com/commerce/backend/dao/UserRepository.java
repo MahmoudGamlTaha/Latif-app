@@ -38,6 +38,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
    
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value = "UPDATE users SET ads_poser =?2 WHERE user_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE users SET ads_poser =?2 WHERE id = ?1", nativeQuery = true)
     Integer stopResumeUserPostAds(Long user_id, boolean active);
 }
