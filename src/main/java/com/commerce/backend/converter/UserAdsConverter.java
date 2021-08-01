@@ -178,17 +178,18 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
 			throw new OAuth2AuthenticationException(err, "unAuthorized Action");	 
         }
         entity.setCreatedBy(user);
-
+        Long subCategory = Long.parseLong(String.valueOf(getHashMapKeyWithCheck(hashedData,"sub_cat", 0)));
+        if(subCategory != 0) {
+        	ItemObjectCategory otherCategory = new ItemObjectCategory();
+        	otherCategory.setId(subCategory);
+        	(entity).setSubCategory(otherCategory);
+        }
         if(request.getType() == AdsType.PETS )
         {
             PetCategory category = new PetCategory();
             category.setId(Long.parseLong(String.valueOf(getHashMapKeyWithCheck(hashedData,"category", 0))));
-            PetCategory otherCategory = new PetCategory();
-             Long subCategory = Long.parseLong(String.valueOf(getHashMapKeyWithCheck(hashedData,"sub_cat", 0)));
-            if(subCategory != 0) {
-            	otherCategory.setId(subCategory);
-            	((UserPetAds)entity).setSubCategory(otherCategory);
-            }
+            
+           
             
             ((UserPetAds)entity).setBarkingProblem(String.valueOf(getHashMapKeyWithCheck(hashedData,"barkingproblem", 1)).equalsIgnoreCase(String.valueOf(true)));
             ((UserPetAds)entity).setBreed(String.valueOf(getHashMapKeyWithCheck(hashedData, "breed", -1)));
@@ -478,11 +479,14 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         	data.put(d.get("id").toString().toLowerCase(), d.get("value"));
         }
       
-        if(type != null) {
+        if(type != null ) {
         	sql += " AND type = :type ";
         }
         if(data.get("category") != null) {
             sql += " AND category_id = :cat ";
+        }
+        if(data.get("sub_cat") != null || data.get("sub_cat") != "0" ) {
+        	 sql += " AND sub_category = :cat ";
         }
         if(data.get("name") != null)
         {
@@ -646,9 +650,12 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
               query.setParameter("from", prFrom);
               query.setParameter("to", prTo);
           }
-          if(data.get("city") != null) {
+          if(data.get("city") != null && data.get("city") != "0") {
          	 query.setParameter("city", data.get("city"));
          }
+          if(data.get("sub_cat") != null && data.get("sub_cat") != "0") {
+          	 query.setParameter("sub_cat", data.get("sub_cat"));
+          }
           return query;
     }
     public Geometry wktToGeometry(String wellKnownText) throws ParseException {

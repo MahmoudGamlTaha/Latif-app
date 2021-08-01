@@ -16,6 +16,7 @@ import com.commerce.backend.model.request.category.CategoryRequest;
 import com.commerce.backend.model.request.category.CategoryUpdateRequest;
 import com.commerce.backend.model.response.BasicResponse;
 import com.commerce.backend.model.response.category.ItemObjectCategoryResponse;
+import com.commerce.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -43,6 +44,7 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
     private final ServiceCategoryRepository serviceCategoryRepository;
     private final ItemCategoryRepository itemCategoryRepository;
     private final ItemObjectCategoryResponseConverter itemObjectCategoryResponseConverter;
+    private final UserService userService;
     @PersistenceContext
     private final EntityManager entityManager;
 
@@ -50,13 +52,14 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
     public ItemObjectCategoryCacheServiceImpl(ItemObjectCategoryRepository productCategoryRepository,
     		PetCategoryRepository petCategoryRepository, ItemCategoryRepository itemCategoryRepository,
     		ItemObjectCategoryResponseConverter itemObjectCategoryResponseConverter,
-    		ServiceCategoryRepository serviceCategoryRepository, EntityManager entityManager) {
+    		ServiceCategoryRepository serviceCategoryRepository, EntityManager entityManager, UserService userService) {
         this.itemObjectRepository = productCategoryRepository;
         this.petCategoryRepository = petCategoryRepository;
         this.itemCategoryRepository = itemCategoryRepository;
         this.itemObjectCategoryResponseConverter = itemObjectCategoryResponseConverter;
         this.serviceCategoryRepository = serviceCategoryRepository;
         this.entityManager = entityManager;
+        this.userService = userService;
     }
 
     @Override
@@ -166,34 +169,8 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
 		HashMap<String, Object> response = new HashMap<String, Object>();
 		try {
 			Pageable pageable = PageRequest.of(page,SystemConstant.MOBILE_PAGE_SIZE);
-			if(id == CategoryType.PETS.getType()) {
-				
-				Page<PetCategory> petCategory = this.petCategoryRepository.findAll(pageable);
-				List<ItemObjectCategoryResponse> catList =  petCategory.get()
-						   .map(itemObjectCategoryResponseConverter)
-						   .collect(Collectors.toList());
-				
-						response.put(MessageType.Data.getMessage(), catList);
-						categoryByType.setSuccess(true);
-						response.put(MessageType.CurrentPage.getMessage(), petCategory.getNumber());
-						response.put(MessageType.TotalItems.getMessage(),  petCategory.getTotalElements());
-						response.put(MessageType.TotalPages.getMessage(),  petCategory.getTotalPages());
-						
-			}else if(id == CategoryType.SERVICE.getType()){
-				Page<ServiceCategory> serviceCategory = this.serviceCategoryRepository.findAll(pageable);
-				List<ItemObjectCategoryResponse> catList =  serviceCategory.get()
-						   .map(itemObjectCategoryResponseConverter)
-						   .collect(Collectors.toList());
-				
-						response.put(MessageType.Data.getMessage(), catList);
-						response.put(MessageType.CurrentPage.getMessage(), serviceCategory.getNumber());
-						response.put(MessageType.TotalItems.getMessage(),  serviceCategory.getTotalElements());
-						response.put(MessageType.TotalPages.getMessage(),  serviceCategory.getTotalPages());
-						categoryByType.setSuccess(true);
-			}
-			else {
-				
-		     Page<ItemObjectCategory> itemObjectCategory  = this.itemObjectRepository.findByType(id, pageable);
+			boolean check = this.userService.isAdmin();
+		     Page<ItemObjectCategory> itemObjectCategory  = this.itemObjectRepository.findByType(id, !check, pageable);
 		     List<ItemObjectCategoryResponse> catList =  itemObjectCategory.get()
 			   .map(itemObjectCategoryResponseConverter)
 			   .collect(Collectors.toList());
@@ -202,7 +179,7 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
 			response.put(MessageType.TotalItems.getMessage(),  itemObjectCategory.getTotalElements());
 			response.put(MessageType.TotalPages.getMessage(),  itemObjectCategory.getTotalPages());
 			categoryByType.setSuccess(true);
-			}
+			
 		}catch(Exception ex) {
 			response.put(MessageType.Data.getMessage(), ex.getMessage());
 			categoryByType.setSuccess(false);
@@ -253,5 +230,38 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
 	public List<ItemObjectCategory> findCategoriesByParent(Long id) {
 		
 		return this.itemObjectRepository.findByCategory(id);
+	}
+
+	@Override
+	public BasicResponse findAllByTypeIdNoParent(Integer id, Integer page) {
+		BasicResponse categoryByType = new BasicResponse();
+		HashMap<String, Object> response = new HashMap<String, Object>();
+		try {
+			Pageable pageable = PageRequest.of(page,SystemConstant.MOBILE_PAGE_SIZE);
+				
+		     Page<ItemObjectCategory> itemObjectCategory  = this.itemObjectRepository.findByType(id, pageable);
+		     List<ItemObjectCategoryResponse> catList =  itemObjectCategory.get()
+			   .map(itemObjectCategoryResponseConverter)
+			   .collect(Collectors.toList());
+			response.put(MessageType.Data.getMessage(), catList);
+			response.put(MessageType.CurrentPage.getMessage(), itemObjectCategory.getNumber());
+			response.put(MessageType.TotalItems.getMessage(),  itemObjectCategory.getTotalElements());
+			response.put(MessageType.TotalPages.getMessage(),  itemObjectCategory.getTotalPages());
+			categoryByType.setSuccess(true);
+			
+		}catch(Exception ex) {
+			response.put(MessageType.Data.getMessage(), ex.getMessage());
+			categoryByType.setSuccess(false);
+		}
+		
+		categoryByType.setResponse(response);
+		categoryByType.setMsg(MessageType.Success.getMessage());
+		
+		return categoryByType;
+	}
+
+	@Override
+	public Page<ItemObjectCategory> findCategoryInterstList(Pageable pagable) {
+		return this.itemObjectRepository.findByShowInterest(true, pagable);
 	}
 }

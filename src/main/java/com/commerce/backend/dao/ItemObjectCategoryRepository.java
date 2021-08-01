@@ -17,10 +17,16 @@ public interface ItemObjectCategoryRepository extends JpaRepository<ItemObjectCa
    
 	Page<ItemObjectCategory> findAll(Pageable pageable);
 	
-   @Where(clause ="active = true")
-    Page<ItemObjectCategory> findByType(Integer type, Pageable page);
+   @Query("SELECT u FROM ItemObjectCategory u WHERE u.type = ?1 AND u.active in (true, ?2) ")
+    Page<ItemObjectCategory> findByType(Integer type, boolean notActive, Pageable page);
     
    @Query(value = "SELECT * FROM item_category WHERE parent_id = ?1 ", nativeQuery = true)
    List<ItemObjectCategory> findByCategory(Long category);
+   
+  // @Where(clause ="active = true AND parent is NULL")
+   @Query("SELECT u FROM ItemObjectCategory u WHERE u.type = ?1 and u.parent is null")
+   Page<ItemObjectCategory>findByType(Integer type, Pageable page);
+   
+   Page<ItemObjectCategory> findByShowInterest(boolean show, Pageable page);
    
 }
