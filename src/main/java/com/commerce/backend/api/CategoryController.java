@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -112,10 +115,10 @@ public class CategoryController extends PublicApiController {
     }
     @GetMapping(value = "/category/get-categories-by-parent")
      public ResponseEntity<BasicResponse> getCategoriesByParent(@RequestParam Long id){
-     List<ItemObjectCategoryResponse> response = this.itemObjectCategoryService.findAllByParent(id);
-     if(response != null) {
-       response.add(this.getZeroSelectList());
-     }
+    	List<ItemObjectCategoryResponse> response  = new ArrayList<ItemObjectCategoryResponse>();	
+    	response.add(this.getZeroSelectList()); 
+    	response.addAll( this.itemObjectCategoryService.findAllByParent(id));
+     
      BasicResponse basicResponse = resHelper.res(response, true, MessageType.Data.getMessage(), null);
      return new ResponseEntity<>(basicResponse, HttpStatus.OK);
     }
