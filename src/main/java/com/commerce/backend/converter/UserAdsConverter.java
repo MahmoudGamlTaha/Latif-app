@@ -485,8 +485,8 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         if(data.get("category") != null) {
             sql += " AND category_id = :cat ";
         }
-        if(data.get("sub_cat") != null || data.get("sub_cat") != "0" ) {
-        	 sql += " AND sub_category = :cat ";
+        if(data.get("sub_cat") != null && !data.get("sub_cat").equals("0") ) {
+        	 sql += " AND sub_category = :sub_cat ";
         }
         if(data.get("name") != null)
         {
@@ -650,10 +650,11 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
               query.setParameter("from", prFrom);
               query.setParameter("to", prTo);
           }
-          if(data.get("city") != null && data.get("city") != "0") {
+          if(data.get("city") != null && !data.get("city").equals( "0")) {
          	 query.setParameter("city", data.get("city"));
          }
-          if(data.get("sub_cat") != null && data.get("sub_cat") != "0") {
+         
+          if(data.get("sub_cat") != null && !data.get("sub_cat").equals( "0")) {
           	 query.setParameter("sub_cat", data.get("sub_cat"));
           }
           return query;
