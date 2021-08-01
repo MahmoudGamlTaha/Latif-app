@@ -163,7 +163,9 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         	   UserAdsImage image = new UserAdsImage(); 	
         	   image.setImage(String.valueOf(itemMainImage));
         	   image.setIsExternalLink(entity.getExternalLink());
+        	   image.setUserAdsImage(entity);
         	   entity.getUserAdsImage().add(image);
+        	  
         	}
         
         /*User user = new User();
