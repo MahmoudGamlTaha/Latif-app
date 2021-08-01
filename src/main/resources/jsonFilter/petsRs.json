@@ -8,7 +8,7 @@
   {"name": "weaned", "type": "boolean","label": "Weaned", "required": false},
   {"name": "neutering", "type": "boolean","label": "Neutering", "required": false},
   {"name": "vaccinationCertificate", "type": "boolean","label": "Vaccination Certificate", "required": false},
-  {"name": "training", "type": "select","label": "Training", "required": false, "options":[{"label":"Any", "code":"ANY"},{"label":"Litter box", "code":"LITTER_BOX"}, {"label":"Guarding", "code":"GUARDING"}], "multi":true},
+  {"name": "training", "type": "select","label": "Training", "required": false, "options":[{"label":"Litter box", "code":"LITTER_BOX"}, {"label":"Guarding", "code":"GUARDING"}], "multi":true},
   {"name": "passport", "type": "boolean","label": "Passport", "required": false},
   {"name": "playWithKids", "type": "boolean","label": "Play with kids", "required": true},
   {"name": "diseasesDisabilities", "type": "boolean","label": "Diseases or Disabilities", "required": false},

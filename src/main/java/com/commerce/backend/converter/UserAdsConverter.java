@@ -447,7 +447,7 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
                 .setParameter("long", longitude)
                 .setParameter("lat", latitude)
                 .setParameter("dist", distance);
-                 this.getQueryString(sql, ads);
+               //  this.getQueryString(sql, ads);
         query = this.buildQueryWithParam(data, query, type);
      
        
@@ -485,6 +485,8 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         if(data.get("category") != null) {
             sql += " AND category_id = :cat ";
         }
+        System.out.print("sub catttttt");
+        System.out.print(data.get("sub_cat"));
         if(data.get("sub_cat") != null && !data.get("sub_cat").equals("0") ) {
         	 sql += " AND sub_category = :sub_cat ";
         }
@@ -568,9 +570,10 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
                 sql += " AND food LIKE :food ";
             }
             
-            if(data.get("city") != null) {
+            if(data.get("city") != null && !data.get("city").equals("0")) {
            	 sql += " AND city_id = :city";
            }
+            
            if(data.get("latitude") != null && data.get("latitude") != null){
         	   // no need now
            }
