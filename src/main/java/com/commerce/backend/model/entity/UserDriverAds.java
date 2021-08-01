@@ -17,5 +17,6 @@ import lombok.Setter;
 @Setter
 public class UserDriverAds extends UserAds {
    @Column(name = "driver_method")
-    Boolean driver_method;
+    String driver_method;
+   
 }

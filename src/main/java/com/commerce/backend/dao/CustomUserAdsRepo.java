@@ -44,7 +44,7 @@ public interface CustomUserAdsRepo extends JpaRepository<UserAds, Long> {
     Long countByActiveTrue();
     Long countByActiveTrueAndType(AdsType adsType);
     @Query(value="SELECT user_ads.* " +
-            "FROM user_ads WHERE created_by = ?1", 
+            "FROM user_ads WHERE created_by = ?1 order by created_at desc", 
             countQuery = "SELECT count(*) from user_ads  WHERE created_by =?1",
             nativeQuery = true)
     Page<UserAds> findCreateByUser(Long user, Pageable pageable);

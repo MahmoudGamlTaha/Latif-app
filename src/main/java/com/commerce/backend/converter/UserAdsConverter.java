@@ -124,9 +124,10 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
        
         Cites city = this.cityRepository.findById(Long.parseLong(String.valueOf(getHashMapKeyWithCheck(hashedData,"city", 0)))).orElse(null);
         
-        if(city != null) 
+        if(city != null) { 
           entity.setCity(city.getCityAr());
-        
+          
+        }
         Coordinate coordinate = new Coordinate();
         
         coordinate.x = entity.getLongitude();
@@ -153,23 +154,18 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         	}
         }
         Object itemMainImage = getHashMapKeyWithCheck(hashedData,"image", 2);
-        if(itemImage != null) {
-        	if(itemMainImage instanceof ArrayList) {
-        	   List<?> imgList = (List<?>)itemMainImage;
-        		Set<UserAdsImage> images = new HashSet<UserAdsImage>();
-        		imgList.forEach(item -> {
-        			UserAdsImage image = new UserAdsImage(); 	
-        			image.setImage(item.toString());
-        			image.setIsExternalLink(entity.getExternalLink());
-        		    image.setUserAdsImage(entity);
-        			images.add(image);
-        			entity.getUserAdsImage().add(image);
-        			 this.loggerS.info("image added path :"+ item.toString() );
-        		
-        		});
-        		
+        if(itemMainImage != null) {
+        	 Set<UserAdsImage> userAdsImages = entity.getUserAdsImage();
+        	 if(userAdsImages == null) {
+        		 userAdsImages =  new HashSet<UserAdsImage>();
+        		 entity.setUserAdsImage(userAdsImages);
+        	 }
+        	   UserAdsImage image = new UserAdsImage(); 	
+        	   image.setImage(String.valueOf(itemMainImage));
+        	   image.setIsExternalLink(entity.getExternalLink());
+        	   entity.getUserAdsImage().add(image);
         	}
-        }
+        
         /*User user = new User();
         String userId =  String.valueOf(getHashMapKeyWithCheck(hashedData,"created_by", 0));
         userId = userId.equals("0")? "1" : userId;
@@ -232,6 +228,7 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
 			 ((UserServiceAds)entity).setCategory(serviceCategory);
 			 this.loggerS.info("Passss create");
         } else if(request.getType() == AdsType.DELIVERY) {
+        	((UserDriverAds)entity).setDriver_method((String.valueOf(getHashMapKeyWithCheck(hashedData,"category", 0))));
         	
         }
         
@@ -426,7 +423,6 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
     
     public Query buildFilterQuery (AdsFiltrationRequest<String, Object> ads)
     {
-        List<HashMap<String, Object>> filterRequest = ads.getUserAds();
         AdsType type =  ads.getType();
         HashMap<String, Object> data = new HashMap<String, Object>();
         
@@ -438,7 +434,7 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         Double longitude = Double.parseDouble(this.getHashMapKeyWithCheck(data, "longitude", 0).toString());
         Double latitude  = Double.parseDouble(this.getHashMapKeyWithCheck(data, "latitude", 0).toString());
         Double distance = Double.parseDouble(this.getHashMapKeyWithCheck(data, "distance", 0).toString()) ;
-        if(latitude == 0 || longitude == 0) {
+        if(latitude == 0 || longitude == 0 || latitude == null) {
         	return this.getQueryWithoutlocation(ads);
         }
         distance =  distance == 0 ? SystemConstant.DISTANCE: distance;
@@ -458,7 +454,7 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
     {
         List<HashMap<String, Object>> filterRequest = ads.getUserAds();
         AdsType type =  ads.getType();
-        HashMap<String, Object> data = new HashMap<String, Object>();
+       HashMap<String, Object> data = new HashMap<String, Object>();
         String sql = "SELECT user_ads.* "
                 + "            FROM user_ads user_ads "
                 + "            WHERE 1 = 1";
@@ -566,6 +562,9 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
                 sql += " AND food LIKE :food ";
             }
             
+            if(data.get("city") != null) {
+           	 sql += " AND city_id = :city";
+           }
            if(data.get("latitude") != null && data.get("latitude") != null){
         	   // no need now
            }
@@ -576,7 +575,6 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
     }
     public Query buildQueryWithParam( HashMap<String, Object> data, Query query, AdsType type) {
     	  if(type != null) {
-          	System.out.println(type);
           	query.setParameter("type", type.getType());
           }
           if(data.get("category") != null) {
@@ -646,6 +644,9 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
               query.setParameter("from", prFrom);
               query.setParameter("to", prTo);
           }
+          if(data.get("city") != null) {
+         	 query.setParameter("city", data.get("city"));
+         }
           return query;
     }
     public Geometry wktToGeometry(String wellKnownText) throws ParseException {
