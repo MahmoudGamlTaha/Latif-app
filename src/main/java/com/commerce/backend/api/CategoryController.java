@@ -46,6 +46,14 @@ public class CategoryController extends PublicApiController {
     	return new ResponseEntity<BasicResponse>(response, status);
     }
     
+    @GetMapping(value = {"/cat-by-adType-no-parent/type={adtypeId}", "/cat-by-adType-no-parent/type={adtypeId}/{page}"})
+    @ResponseBody
+    public ResponseEntity<BasicResponse> getCategoryByAdsTypeForm(@PathVariable("adtypeId") Integer adtypeId, 
+    		                                                   @PathVariable(required = false) Optional<Integer> page){
+    	BasicResponse response = this.itemObjectCategoryService.findAllByTypeIdNoParent(adtypeId, page.orElse(0));
+    	HttpStatus status = response.getMsg() != MessageType.Success.getMessage()?HttpStatus.BAD_REQUEST: HttpStatus.OK;
+    	return new ResponseEntity<BasicResponse>(response, status);
+    }
     @GetMapping(value = {"/cat-by-parent/parent={ParentId}", "/cat-by-adType/type={adtypeId}/{page}"})
     @ResponseBody
     public ResponseEntity<BasicResponse> getCategoriesByParent(@PathVariable("adtypeId") Integer ParentId, 
@@ -86,7 +94,7 @@ public class CategoryController extends PublicApiController {
     @GetMapping(value = {"/category-interest/page={page}","/category-interest"})
     public ResponseEntity<BasicResponse> getInterestCategories(@PathVariable(value="page", required = false) Optional<Integer> page) {
     	Pageable pageable = PageRequest.of(page.orElse(0), SystemConstant.MOBILE_PAGE_SIZE);
-         BasicResponse response = itemObjectCategoryService.findAllByOrderByName(pageable);
+         BasicResponse response = itemObjectCategoryService.findCategoryInterstList(pageable);
      	HttpStatus status = response.getMsg() != MessageType.Success.getMessage()?HttpStatus.BAD_REQUEST: HttpStatus.OK;
     	return new ResponseEntity<BasicResponse>(response, status);
     }

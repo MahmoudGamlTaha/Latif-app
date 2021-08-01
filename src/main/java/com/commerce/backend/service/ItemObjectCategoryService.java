@@ -13,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 public interface ItemObjectCategoryService {
 	ItemObjectCategory findById(Long id);
     BasicResponse findAllByTypeId(Integer id, Integer page);
+    BasicResponse findAllByTypeIdNoParent(Integer id, Integer page);
     List<ItemObjectCategoryResponse> findAllByParent(Long parent);
 	public BasicResponse findByCategoryId(Long id);
 	BasicResponse findAllByOrderByName(Pageable page);
+	BasicResponse findCategoryInterstList(Pageable page);
     List<ItemObjectCategoryResponse> findPetsCategories();
     List<ItemObjectCategoryResponse> findItemCategories();
     BasicResponse createItemObjectCategory(CategoryRequest request);

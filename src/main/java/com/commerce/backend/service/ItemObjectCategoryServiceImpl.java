@@ -2,6 +2,7 @@ package com.commerce.backend.service;
 
 import com.commerce.backend.constants.MessageType;
 import com.commerce.backend.converter.category.ItemObjectCategoryResponseConverter;
+import com.commerce.backend.helper.resHelper;
 import com.commerce.backend.model.dto.ItemObjectCategoryVO;
 import com.commerce.backend.model.entity.ItemCategory;
 import com.commerce.backend.model.entity.ItemObjectCategory;
@@ -143,6 +144,30 @@ public class ItemObjectCategoryServiceImpl implements ItemObjectCategoryService 
 				.stream()
 				.map(itemObjectCategoryResponseConverter)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public BasicResponse findAllByTypeIdNoParent(Integer id, Integer page) {
+		return itemObjectCategoryCacheService.findAllByTypeIdNoParent(id, page);
+	}
+
+	@Override
+	public BasicResponse findCategoryInterstList(Pageable pageable) {
+		BasicResponse categoryByType = new BasicResponse();
+		HashMap<String, Object> response = new HashMap<String, Object>();
+		 Page<ItemObjectCategory> itemObjectCategory  = itemObjectCategoryCacheService.findCategoryInterstList(pageable);
+		 List<ItemObjectCategoryResponse> catList =  itemObjectCategory.get()
+				   .map(itemObjectCategoryResponseConverter)
+				   .collect(Collectors.toList());
+				response.put(MessageType.Data.getMessage(), catList);
+				response.put(MessageType.CurrentPage.getMessage(), itemObjectCategory.getNumber());
+				response.put(MessageType.TotalItems.getMessage(),  itemObjectCategory.getTotalElements());
+				response.put(MessageType.TotalPages.getMessage(),  itemObjectCategory.getTotalPages());
+				categoryByType.setSuccess(true);
+				categoryByType.setMsg(MessageType.Success.getMessage());
+				categoryByType.setResponse(response);
+		return categoryByType;
+	
 	}
 	
 }
