@@ -22,10 +22,13 @@ import com.commerce.backend.dao.CountryRepository;
 import com.commerce.backend.helper.resHelper;
 import com.commerce.backend.model.dto.CityVO;
 import com.commerce.backend.model.dto.CountryVO;
+import com.commerce.backend.model.dto.ItemObjectCategoryVO;
 import com.commerce.backend.model.dto.UrlOptionVO;
 import com.commerce.backend.model.entity.Cites;
 import com.commerce.backend.model.entity.Country;
+import com.commerce.backend.model.entity.ItemObjectCategory;
 import com.commerce.backend.model.response.BasicResponse;
+import com.commerce.backend.model.response.category.ItemObjectCategoryResponse;
 import com.commerce.backend.service.UserService;
 
 @RestController
@@ -50,14 +53,27 @@ public class CityController extends PublicApiController {
 	   
 	    HashMap<String, Object> responseMap = new HashMap<String, Object>();
 	    List<Object> urlOptions = new LinkedList<Object>();
+	    urlOptions.add(this.getZeroSelectList());
 	    this.cityReposioty.findByActive(true).forEach(city -> {
-	        urlOptions.add(this.urlOptionVoConverter.apply(city));    	
+	        urlOptions.add(this.urlOptionVoConverter.apply(city));  
+	        
 	    });
 	    
 	    responseMap.put(MessageType.Data.getMessage(), urlOptions);
 	    response.setResponse(responseMap);
 	   return response;
    }
+    private ItemObjectCategoryResponse getZeroSelectList() {
+    	ItemObjectCategoryResponse zeroSelect = new ItemObjectCategoryResponse();
+    	ItemObjectCategory itemObjectCategory = new ItemObjectCategory();
+    	itemObjectCategory.setName("ALL");
+    	itemObjectCategory.setNameAr("الكل");
+    	itemObjectCategory.setId(0L);
+    	itemObjectCategory.setType(0);
+    	ItemObjectCategoryVO itemObjectCategoryVO = new ItemObjectCategoryVO(itemObjectCategory);
+    	zeroSelect.setCategory(itemObjectCategoryVO);
+        return zeroSelect;    	
+    }
 	@GetMapping(value = "/cites-list")
 	public BasicResponse activeCites() {
 	    BasicResponse response = new BasicResponse();

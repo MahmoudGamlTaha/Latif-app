@@ -152,7 +152,7 @@ public class ItemObjectCategoryServiceImpl implements ItemObjectCategoryService 
 	}
 
 	@Override
-	public BasicResponse findCategoryInterstList(Pageable pageable) {
+	public BasicResponse findCategoryInterstList(Pageable pageable){
 		BasicResponse categoryByType = new BasicResponse();
 		HashMap<String, Object> response = new HashMap<String, Object>();
 		 Page<ItemObjectCategory> itemObjectCategory  = itemObjectCategoryCacheService.findCategoryInterstList(pageable);
@@ -167,7 +167,6 @@ public class ItemObjectCategoryServiceImpl implements ItemObjectCategoryService 
 				categoryByType.setMsg(MessageType.Success.getMessage());
 				categoryByType.setResponse(response);
 		return categoryByType;
-	
 	}
 	
 }

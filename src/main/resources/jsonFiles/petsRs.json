@@ -17,7 +17,7 @@
   {"name": "playWithKids", "type": "boolean","label": "Play with kids","label_ar":"يلعب مع الاطفال", "required": true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "diseasesDisabilities", "type": "boolean","label": "Diseases or Disabilities","label_ar":"لدية اعاقة", "required": true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "diseasesDisabilitiesDesc", "type": "string","label": "Diseases or Disabilities Desc", "required": false,"requiredcond":"selling_type==\"Selling\""},
-  {"name": "food", "type": "dropdown","label": "Food","label_ar":"نوع الاكل", "required": true, "options":[{"label" : "Dry", "code":"DRY"}, {"label" : "Wet", "code":"WET"}, {"label" : "Home cooked", "code":"HOME_COOKED"}], "multi":true,"requiredcond":"selling_type==\"Selling\""},
+  {"name": "food", "type": "dropdown","label": "Food","label_ar":"نوع الاكل", "required": true, "options":[{"label" : "Any", "code":"ANY"},{"label" : "Dry", "code":"DRY"}, {"label" : "Wet", "code":"WET"}, {"label" : "Home cooked", "code":"HOME_COOKED"}], "multi":true,"requiredcond":"selling_type==\"Selling\""},
   {"name": "images", "type": "files","label": "Pet Images", "label_ar":"الصور", "required": false,"requiredcond":""},
   {"name": "longitude", "type": "map","label": "Longitude", "required": true,"requiredcond":""},
   {"name": "latitude", "type": "map","label": "Latitude", "required": true,"requiredcond":""},

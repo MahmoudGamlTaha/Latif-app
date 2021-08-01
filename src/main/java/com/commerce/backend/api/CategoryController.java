@@ -3,6 +3,8 @@ package com.commerce.backend.api;
 import com.commerce.backend.constants.MessageType;
 import com.commerce.backend.constants.SystemConstant;
 import com.commerce.backend.helper.resHelper;
+import com.commerce.backend.model.dto.ItemObjectCategoryVO;
+import com.commerce.backend.model.entity.ItemObjectCategory;
 import com.commerce.backend.model.request.category.CategoryRequest;
 import com.commerce.backend.model.request.category.CategoryUpdateRequest;
 import com.commerce.backend.model.response.BasicResponse;
@@ -111,8 +113,22 @@ public class CategoryController extends PublicApiController {
     @GetMapping(value = "/category/get-categories-by-parent")
      public ResponseEntity<BasicResponse> getCategoriesByParent(@RequestParam Long id){
      List<ItemObjectCategoryResponse> response = this.itemObjectCategoryService.findAllByParent(id);
+     if(response != null) {
+       response.add(this.getZeroSelectList());
+     }
      BasicResponse basicResponse = resHelper.res(response, true, MessageType.Data.getMessage(), null);
      return new ResponseEntity<>(basicResponse, HttpStatus.OK);
+    }
+    private ItemObjectCategoryResponse getZeroSelectList() {
+    	ItemObjectCategoryResponse zeroSelect = new ItemObjectCategoryResponse();
+    	ItemObjectCategory itemObjectCategory = new ItemObjectCategory();
+    	itemObjectCategory.setName("ALL");
+    	itemObjectCategory.setNameAr("الكل");
+    	itemObjectCategory.setId(0L);
+    	itemObjectCategory.setType(1);
+    	ItemObjectCategoryVO itemObjectCategoryVO = new ItemObjectCategoryVO(itemObjectCategory);
+    	zeroSelect.setCategory(itemObjectCategoryVO);
+        return zeroSelect;    	
     }
     @PostMapping(value = "/category/delete")
     public ResponseEntity<ItemObjectCategoryResponse> deleteCategory(Long id){
