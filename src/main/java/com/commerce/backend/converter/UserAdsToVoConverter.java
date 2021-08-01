@@ -66,13 +66,15 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 		}
 		
 		System.out.println(source.getType());
+		System.out.println(source.getId());
 		assert userAdsVo != null;
 		return convertToVo(source);
 	}
 	@Transactional
 	public UserAdsVO convertToVo(UserAds entity){
+	
 		UserAdsVO userAdsVo = new UserAdsVO();
-		
+		try {
 		userAdsVo.setId(entity.getId());
 		userAdsVo.setName(entity.getName());
 		userAdsVo.setCode(entity.getCode());
@@ -193,6 +195,10 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 			}
 		}
 		userAdsVo.setExtra(extraInfo);
+		return userAdsVo;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return userAdsVo;
 	}
 	public Object checkValue(Object b, Integer type) {
