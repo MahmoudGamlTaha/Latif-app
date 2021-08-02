@@ -565,7 +565,7 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
             {
                 sql += " AND training LIKE :training ";
             }
-            if(data.get("food") != null)
+            if(data.get("food") != null && !String.valueOf(data.get("food")).toLowerCase().equals("any") )
             {
                 sql += " AND food LIKE :food ";
             }
@@ -612,11 +612,11 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
           }
           if(data.get("training") != null)
           {
-              query.setParameter("training", data.get("training")+"%");
+              query.setParameter("training", "%"+ data.get("training")+"%");
           }
-          if(data.get("food") != null)
+          if(data.get("food") != null && !String.valueOf(data.get("food")).toLowerCase().equals("any"))
           {
-              query.setParameter("food", data.get("food")+"%");
+              query.setParameter("food", "%"+data.get("food")+"%");
           }
           if(data.get("weaned") != null)
           {
