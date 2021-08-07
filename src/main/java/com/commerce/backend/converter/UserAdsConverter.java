@@ -109,8 +109,10 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         for(HashMap<String, Object> d: data){
         	hashedData.put(d.get("id").toString().toLowerCase(), d.get("value"));
         }
-     
-        entity.setName(String.valueOf( getHashMapKeyWithCheck(hashedData,"name", -1)));
+        Object value = getHashMapKeyWithCheck(hashedData,"name", -1);
+        if(value != null) {
+        entity.setName(String.valueOf(value ));
+        }
         entity.setCode(String.valueOf(hashedData.get("code")));
         entity.setDescription(String.valueOf( getHashMapKeyWithCheck(hashedData,"description", -1)));
         entity.setShortDescription(String.valueOf( getHashMapKeyWithCheck(hashedData,"short_description", -1)));
@@ -192,10 +194,14 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
            
             
             ((UserPetAds)entity).setBarkingProblem(String.valueOf(getHashMapKeyWithCheck(hashedData,"barkingproblem", 1)).equalsIgnoreCase(String.valueOf(true)));
+            if(String.valueOf(getHashMapKeyWithCheck(hashedData, "breed", -1)) != null){
             ((UserPetAds)entity).setBreed(String.valueOf(getHashMapKeyWithCheck(hashedData, "breed", -1)));
+            }
             ((UserPetAds)entity).setStock(Integer.parseInt(String.valueOf(getHashMapKeyWithCheck(hashedData,"stock", 0))));
             ((UserPetAds)entity).setWeaned(Boolean.parseBoolean(String.valueOf(getHashMapKeyWithCheck(hashedData,"weaned", 1))));
-            ((UserPetAds)entity).setFood(String.valueOf(getHashMapKeyWithCheck(hashedData,"food", -1)));
+             if(String.valueOf(getHashMapKeyWithCheck(hashedData,"food", -1)) != null) {
+               ((UserPetAds)entity).setFood(String.valueOf(getHashMapKeyWithCheck(hashedData,"food", -1)));
+             }
             ((UserPetAds)entity).setDiseasesDisabilities(hashedData.get("diseasesdisabilities").toString().equalsIgnoreCase(String.valueOf(true)));
             ((UserPetAds)entity).setDiseasesDisabilitiesDesc(String.valueOf(getHashMapKeyWithCheck(hashedData,"diseasesdisabilitiesdesc", -1)));
             ((UserPetAds)entity).setNeutering(String.valueOf(getHashMapKeyWithCheck(hashedData,"neutering", 1)).equalsIgnoreCase(String.valueOf(true)));
@@ -203,7 +209,9 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
             ((UserPetAds)entity).setPlayWithKids(String.valueOf(getHashMapKeyWithCheck(hashedData,"playwithkids", 1)).equalsIgnoreCase(String.valueOf(true)));
             ((UserPetAds)entity).setPassport(String.valueOf(getHashMapKeyWithCheck(hashedData,"passport", 1)).equalsIgnoreCase(String.valueOf(true)));
             ((UserPetAds)entity).setVaccinationCertifcate(String.valueOf(getHashMapKeyWithCheck(hashedData,"vaccinationcertificate",1)).equalsIgnoreCase(String.valueOf(true)));
+            if(getHashMapKeyWithCheck(hashedData,"selling_type", -1) != null) {
             ((UserPetAds)entity).setSelling_type(String.valueOf(getHashMapKeyWithCheck(hashedData,"selling_type", -1)));
+            }
             ((UserPetAds)entity).setCategory(category);
         }
        

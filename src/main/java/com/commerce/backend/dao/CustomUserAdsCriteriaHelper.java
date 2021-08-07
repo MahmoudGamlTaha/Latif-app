@@ -54,6 +54,8 @@ public class CustomUserAdsCriteriaHelper {
 		 paging +=") as page_info";
 		 sql = sql.replace("page_quey", paging);
 		 this.loggerS.info("query:" + sql);
+		 this.loggerS.info("longitude"+longitude);
+		 this.loggerS.info("latitude"+latitude);
 		 Query query = this.entityManager.createNativeQuery(sql, UserAds.class);
 		 
 		  query.setParameter("long", longitude);
