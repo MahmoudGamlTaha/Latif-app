@@ -44,7 +44,7 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
     
 	@Override
 	 public UserAdsVO apply( UserAds source) throws ResourceNotFoundException{
-		UserAdsVO userAdsVo = null;
+		UserAdsVO userAdsVo = new UserAdsVO();
        if(source == null) {
     	   return userAdsVo;
        }
@@ -59,7 +59,7 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 		}
 		else if(source.getType() == AdsType.SERVICE) {
 			userAdsVo = new UserServiceVO();
-		}
+		} 
 		else {
 			userAdsVo = new UserPetAdsVO();
 			// throw new ResourceNotFoundException("Category Not Found");
