@@ -67,7 +67,7 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 		
 		System.out.println(source.getType());
 		System.out.println(source.getId());
-		assert userAdsVo != null;
+		//assert userAdsVo != null;
 		return convertToVo(source);
 	}
 	@Transactional
