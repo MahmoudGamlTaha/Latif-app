@@ -26,7 +26,7 @@ public class Blog {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title", nullable = false, length=250)
+    @Column(name = "title", nullable = false, length = 500)
     private String title;
 
 //    @JsonIdentityReference(alwaysAsId = true)
@@ -41,7 +41,7 @@ public class Blog {
     @Column(name = "path")
     private String path;
 
-    @Column(name = "description", length = 250)
+    @Column(name = "description", length = 1000)
     private String description;
 
     @ManyToOne(optional = true)
