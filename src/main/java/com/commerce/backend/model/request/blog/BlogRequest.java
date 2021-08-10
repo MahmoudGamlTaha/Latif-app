@@ -18,7 +18,7 @@ import java.util.Optional;
 public class BlogRequest {
 
     @NotBlank
-    @Size(min = 3, max = 250)
+    @Size(min = 3, max = 350)
     String title;
     
     @Positive

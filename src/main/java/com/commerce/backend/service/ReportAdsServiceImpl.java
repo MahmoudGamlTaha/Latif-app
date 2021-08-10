@@ -61,7 +61,7 @@ public class ReportAdsServiceImpl implements ReportAdsService{
        // String principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = this.userService.getCurrentUser();
         if(user == null || request.getAdId() == null || request.getType() == null){
-            return resHelper.res(null , false, MessageType.Missing.getMessage(), null);
+            return resHelper.res(null , false , MessageType.Missing.getMessage(), null);
         }
        
         UserAds userAds = userAdsRepo.findById(request.getAdId()).orElse(null);
