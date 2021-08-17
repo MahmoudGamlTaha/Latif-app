@@ -48,6 +48,7 @@ public class UserResponseConverter implements Function<User, UserResponse> {
 	        if(user.getAds() != null) {
 	        userResponse.setProdCount(user.getAds().size());
 	        }
+	       userResponse.setSubscriptions(user.getSubscriptions());
     	}
         return userResponse;
     	

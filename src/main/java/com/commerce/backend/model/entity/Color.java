@@ -9,11 +9,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "color")
+@Table(name = "colors")
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "productVariantList")
+@ToString(exclude = "subscriptionTypes")
 public class Color {
 
     @Id
@@ -22,7 +22,7 @@ public class Color {
     private Long id;
 
     @OneToMany(mappedBy = "color")
-    private List<ProductVariant> productVariantList;
+    private List<SubscriptionTypes> subscriptionTypes;
 
     @Column(name = "name")
     private String name;

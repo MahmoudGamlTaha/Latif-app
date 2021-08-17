@@ -1,11 +1,19 @@
 package com.commerce.backend.model.entity;
 
 import com.commerce.backend.constants.PeriodUnit;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,8 +54,14 @@ public class SubscriptionTypes {
     @Column(name = "period_unit")
     @Enumerated(EnumType.STRING)
     private PeriodUnit periodUnit;
-
-    @ManyToMany(mappedBy = "subscriptions", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+    @OneToOne
+    @JoinColumn(name = "color_id", referencedColumnName = "id")
+    @NotFound(action = NotFoundAction.IGNORE)
+    Color color; 
+   
+   /*@JsonManagedReference
+   @ManyToMany(mappedBy = "subscriptions", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+   @Fetch(FetchMode.SUBSELECT)
+   private Set<User> users = new HashSet<>();*/
 
 }
