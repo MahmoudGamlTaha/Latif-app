@@ -90,7 +90,7 @@ public class User {
    @Type(type = "timestamp")
    private Date registrationDate;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(
           name = "user_subscription",
           joinColumns = {@JoinColumn(name = "user_id")},

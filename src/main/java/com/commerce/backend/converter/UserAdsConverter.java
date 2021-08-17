@@ -118,6 +118,9 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         entity.setShortDescription(String.valueOf( getHashMapKeyWithCheck(hashedData,"short_description", -1)));
       //  entity.setActive(Boolean.parseBoolean(String.valueOf(getHashMapKeyWithCheck(hashedData,"active", 1))));
         entity.setActive(true);
+        if(request.getType() == AdsType.PET_CARE) {
+        entity.setActive(false);
+        }     
         entity.setType(request.getType());
         entity.setPrice(Float.parseFloat(String.valueOf(getHashMapKeyWithCheck(hashedData,"price", 0))));
         entity.setLongitude(Double.parseDouble(String.valueOf(getHashMapKeyWithCheck(hashedData,"longitude", 0))));
@@ -127,8 +130,7 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         Cites city = this.cityRepository.findById(Long.parseLong(String.valueOf(getHashMapKeyWithCheck(hashedData,"city", 0)))).orElse(null);
         
         if(city != null) { 
-          entity.setCity(city.getCityAr());
-          
+          entity.setCity(city.getCityAr()); 
         }
         Coordinate coordinate = new Coordinate();
         
@@ -177,7 +179,11 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         User user = userService.getCurrentUser();
         if(user == null) {
         	OAuth2Error err = new OAuth2Error(OAuth2ErrorCodes.ACCESS_DENIED);
-			throw new OAuth2AuthenticationException(err, "unAuthorized Action");	 
+			throw new OAuth2AuthenticationException(err, "UnAuthorized Action");	 
+        }
+        if(user.getAdsPoser() == false) {
+        	OAuth2Error err = new OAuth2Error(OAuth2ErrorCodes.ACCESS_DENIED);
+			throw new OAuth2AuthenticationException(err, "you temporary paused");	
         }
         entity.setCreatedBy(user);
         Long subCategory = Long.parseLong(String.valueOf(getHashMapKeyWithCheck(hashedData,"sub_cat", 0)));
