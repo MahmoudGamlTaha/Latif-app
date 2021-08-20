@@ -23,4 +23,5 @@ public interface ItemObjectCategoryService {
     BasicResponse createItemObjectCategory(CategoryRequest request);
     ItemObjectCategoryResponse deleteItemObjectCategory(Long id);
     BasicResponse updateItemCategory(CategoryUpdateRequest request);
+    boolean activateCategory(Long categoryId, boolean active);
 }

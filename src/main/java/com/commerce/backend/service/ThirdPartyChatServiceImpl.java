@@ -171,7 +171,7 @@ public class ThirdPartyChatServiceImpl implements ThirdPartyChatService {
          request.setRecevier(receiver.getId());
          UserChat chat = this.saveInternalyMessage(request);
          data.put("chat_room", chat.getRoom());
-         String firebaseToken = receiver.getToken().stream().filter(subs -> subs.getExpiryDate() != null).max(comparator).get().getFirebaseToken();
+         String firebaseToken = receiver.getToken().stream().filter(subs -> subs.getExpiryDate() != null && subs.getFirebaseToken() != null ).max(comparator).get().getFirebaseToken();
          logger.info("token:",firebaseToken);
          Message message = Message
 	                .builder()

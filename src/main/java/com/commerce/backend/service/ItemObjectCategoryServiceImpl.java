@@ -168,5 +168,11 @@ public class ItemObjectCategoryServiceImpl implements ItemObjectCategoryService 
 				categoryByType.setResponse(response);
 		return categoryByType;
 	}
+
+	@Override
+	public boolean activateCategory(Long categoryId, boolean active) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

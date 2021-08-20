@@ -80,7 +80,11 @@ public class CategoryController extends PublicApiController {
         List<ItemObjectCategoryResponse> accCategories = itemObjectCategoryService.findItemCategories();
         return new ResponseEntity<>(accCategories, HttpStatus.OK);
     }
-    
+    @PostMapping(value = "/category/activate")
+    public ResponseEntity<BasicResponse>activateCategory(@RequestParam("cat_id") Long category, @RequestParam("active") boolean active){
+    	boolean res = itemObjectCategoryService.activateCategory(category, active);
+    	return new ResponseEntity<BasicResponse>(resHelper.res(res, res!= false, MessageType.Data.getMessage(), null), HttpStatus.OK);
+    }
     @GetMapping(value = {"/category/page={page}","/category"})
     public ResponseEntity<BasicResponse> getAllCategories(@PathVariable(value="page", required = false) Optional<Integer> page) {
     	Pageable pageable = PageRequest.of(page.orElse(0), SystemConstant.MOBILE_PAGE_SIZE);
@@ -116,7 +120,7 @@ public class CategoryController extends PublicApiController {
     @GetMapping(value = "/category/get-categories-by-parent")
      public ResponseEntity<BasicResponse> getCategoriesByParent(@RequestParam Long id){
     	List<ItemObjectCategoryResponse> response  = new ArrayList<ItemObjectCategoryResponse>();	
-    	response.add(this.getZeroSelectList()); 
+    //	response.add(this.getZeroSelectList()); 
     	response.addAll( this.itemObjectCategoryService.findAllByParent(id));
      
      BasicResponse basicResponse = resHelper.res(response, true, MessageType.Data.getMessage(), null);
@@ -125,12 +129,12 @@ public class CategoryController extends PublicApiController {
     private ItemObjectCategoryResponse getZeroSelectList() {
     	ItemObjectCategoryResponse zeroSelect = new ItemObjectCategoryResponse();
     	ItemObjectCategory itemObjectCategory = new ItemObjectCategory();
-    	itemObjectCategory.setName("ALL");
-    	itemObjectCategory.setNameAr("الكل");
-    	itemObjectCategory.setId(0L);
-    	itemObjectCategory.setType(1);
-    	ItemObjectCategoryVO itemObjectCategoryVO = new ItemObjectCategoryVO(itemObjectCategory);
-    	zeroSelect.setCategory(itemObjectCategoryVO);
+    	//itemObjectCategory.setName("ALL");
+    //	itemObjectCategory.setNameAr("الكل");
+   // 	itemObjectCategory.setId(0L);
+   // 	itemObjectCategory.setType(1);
+    	//ItemObjectCategoryVO itemObjectCategoryVO = new ItemObjectCategoryVO(itemObjectCategory);
+    //	zeroSelect.setCategory(itemObjectCategoryVO);
         return zeroSelect;    	
     }
     @PostMapping(value = "/category/delete")

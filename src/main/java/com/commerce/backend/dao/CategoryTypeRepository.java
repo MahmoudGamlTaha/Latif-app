@@ -2,11 +2,14 @@ package com.commerce.backend.dao;
 
 import com.commerce.backend.model.entity.CategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface CategoryTypeRepository extends JpaRepository<CategoryType, Long> {
@@ -17,4 +20,10 @@ public interface CategoryTypeRepository extends JpaRepository<CategoryType, Long
     List<CategoryType> findAll();
     
     Optional<CategoryType> findByName(String name);
+    
+    @Modifying
+    @Transactional
+    @Query("Update CategoryType cat set cat.active = ?2 WHERE cat.id = id")
+    Integer activateCategoryType(Long id, boolean active);
 }
+

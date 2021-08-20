@@ -3,10 +3,13 @@ package com.commerce.backend.dao;
 import com.commerce.backend.model.entity.ItemObjectCategory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.Where;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,10 @@ public interface ItemObjectCategoryRepository extends JpaRepository<ItemObjectCa
   // @Where(clause ="active = true AND parent is NULL")
    @Query("SELECT u FROM ItemObjectCategory u WHERE u.type = ?1 and u.parent is null")
    Page<ItemObjectCategory>findByType(Integer type, Pageable page);
+  @Transactional
+   @Modifying
+   @Query("UPDATE ItemObjectCategory item SET item.active = ?1 WHERE item.id = ?2  ") 
+   Integer activateCategory(Boolean active, Long id);
    
    Page<ItemObjectCategory> findByShowInterest(boolean show, Pageable page);
    

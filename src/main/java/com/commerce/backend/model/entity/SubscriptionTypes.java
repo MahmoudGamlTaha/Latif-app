@@ -32,7 +32,10 @@ public class SubscriptionTypes {
 
     @Column(name = "name")
     private String name;
-
+    
+    @Column(name = "name_ar")
+    private String nameAr;
+    
     @Column(name = "ads_number")
     private Integer adsNumber;
 

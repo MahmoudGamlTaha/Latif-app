@@ -40,7 +40,7 @@ public class CategoryTypeAdsController extends PublicApiController{
         return service.updateCategoryType(request);
     }
 
-    @PostMapping("/ads-type/delete")
+    @PostMapping("/ads-type/activate")
     public ResponseEntity<BasicResponse> delete(Long id)
     {
         return service.deleteCategoryType(id);

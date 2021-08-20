@@ -10,6 +10,8 @@ public class SubscriptionTypeVO {
     private Long id;
 
     private String name;
+    
+    private String nameAr;
 
     private Integer adsNumber;
 
