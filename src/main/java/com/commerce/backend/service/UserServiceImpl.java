@@ -424,6 +424,7 @@ public class UserServiceImpl implements UserService {
 	   Date date = token.getExpiryDate();
 	   date = DateUtils.addYears(date, -10);
 	   token.setExpiryDate(date);
+	   token.setFirebaseToken(null);
 	   this.verficationToken.save(token);
 	   SecurityContextHolder.clearContext();
 		return true;
