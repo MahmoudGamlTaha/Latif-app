@@ -264,4 +264,9 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
 	public Page<ItemObjectCategory> findCategoryInterstList(Pageable pagable) {
 		return this.itemObjectRepository.findByShowInterest(true, pagable);
 	}
+
+	@Override
+	public boolean activateCategory(Long category_Id, boolean active) {
+		return this.itemObjectRepository.activateCategory(active, category_Id) >= 0;
+	}
 }

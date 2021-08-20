@@ -19,6 +19,8 @@ public class SubscriptionConverter implements Function<SubscriptionTypes, Subscr
         vo.setPrice(subscriptionTypes.getPrice());
         vo.setAdsNumber(subscriptionTypes.getAdsNumber());
         vo.setPeriodInDays(subscriptionTypes.getPeriodInDays());
+        String nameAr = subscriptionTypes.getNameAr() == null || subscriptionTypes.getNameAr().trim().equals("")?subscriptionTypes.getName(): subscriptionTypes.getNameAr();
+        vo.setNameAr(nameAr);
         return vo;
     }
 

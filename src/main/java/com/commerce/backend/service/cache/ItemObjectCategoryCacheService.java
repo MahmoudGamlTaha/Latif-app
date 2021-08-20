@@ -24,5 +24,6 @@ public interface ItemObjectCategoryCacheService {
     ItemObjectCategory deleteItemObjectCategory(Long id);
     ItemObjectCategory updateItemCategory(CategoryUpdateRequest request);
     List<ItemObjectCategory> findCategoriesByParent(Long id);
+    boolean activateCategory(Long category_Id, boolean active);
     Page<ItemObjectCategory> findCategoryInterstList(Pageable pagable);
 }
