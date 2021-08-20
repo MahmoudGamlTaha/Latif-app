@@ -49,6 +49,8 @@ public class UserAdsVO {
 	private Long  categoryId;
 	
 	private String image;
+	
+	private String subs_color;
 
 	private Set<UserAdsImageVO> Images = new HashSet<UserAdsImageVO>();
   
