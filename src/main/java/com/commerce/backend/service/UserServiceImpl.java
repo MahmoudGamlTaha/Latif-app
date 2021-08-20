@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
         user.setRegistrationDate(new Date());
         user.setAddress(registerUserRequest.getAddress());
         user.setDevice(registerUserRequest.getDevice());
+        user.setAdsPoser(true);
         Cites city= this.cityRepository.findById(registerUserRequest.getCity()).orElse(null);
         if(city != null) {
         user.setCity(city);
