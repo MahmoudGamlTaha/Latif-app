@@ -25,12 +25,15 @@ import com.commerce.backend.model.entity.ItemObjectCategory;
 import com.commerce.backend.model.entity.MedicalCategory;
 import com.commerce.backend.model.entity.PetCategory;
 import com.commerce.backend.model.entity.ServiceCategory;
+import com.commerce.backend.model.entity.SubscriptionTypes;
 import com.commerce.backend.model.entity.UserAccAds;
 import com.commerce.backend.model.entity.UserAds;
 import com.commerce.backend.model.entity.UserAdsImage;
 import com.commerce.backend.model.entity.UserMedicalAds;
 import com.commerce.backend.model.entity.UserPetAds;
 import com.commerce.backend.model.entity.UserServiceAds;
+import com.commerce.backend.model.entity.UserSubscription;
+import com.commerce.backend.model.entity.VerificationToken;
 
 import java.util.function.Function;
 
@@ -117,7 +120,10 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 			user.setAvatar(entity.getCreatedBy().getAvatar());
 			user.setPhone(entity.getCreatedBy().getMobile());
 			user.setRegistrationDate(entity.getCreatedAt());
-
+              if(entity.getCreatedBy().getSubscriptions() != null) {
+            	  Comparator<UserSubscription> comparator = Comparator.comparing(UserSubscription::getEndDate);
+            	//  String color = entity.getCreatedBy().getSubscriptions().stream().filter(ur -> ur.get).comparator(comparator);
+              }
 			Set<UserAds> ads = entity.getCreatedBy().getAds();
 			if(ads != null) {
 			user.setAdsCount(ads.size());

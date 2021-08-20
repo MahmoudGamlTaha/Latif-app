@@ -181,7 +181,8 @@ public class UserAdsConverter implements Function<UserAds, UserAdsVO> {
         	OAuth2Error err = new OAuth2Error(OAuth2ErrorCodes.ACCESS_DENIED);
 			throw new OAuth2AuthenticationException(err, "UnAuthorized Action");	 
         }
-        if(user.getAdsPoser() == false) {
+         Boolean check = user.getAdsPoser() == null?false:true;
+        if(check) {
         	OAuth2Error err = new OAuth2Error(OAuth2ErrorCodes.ACCESS_DENIED);
 			throw new OAuth2AuthenticationException(err, "you temporary paused");	
         }
