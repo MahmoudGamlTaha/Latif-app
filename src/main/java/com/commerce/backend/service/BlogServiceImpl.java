@@ -12,12 +12,14 @@ import com.commerce.backend.model.response.blog.BlogResponse;
 import com.commerce.backend.service.cache.BlogCacheServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -177,9 +179,13 @@ public class BlogServiceImpl implements BlogService{
 		HashMap<String, Object> responseObj = new HashMap<String, Object>();
 		try {
 		     Page<Blog> blogs = blogCacheService.findByCategory(category, pageable);
-		     List<BlogResponse> blogResponse =  blogs.get()
+		     List<BlogResponse> blogResponse = new LinkedList<BlogResponse>();
+		     if(blogs != null) {
+		    
+		             blogResponse =  blogs.get()
                      .map(blogResponseConverter)
                      .collect(Collectors.toList());
+		     }
 		     responseObj.put(MessageType.Data.getMessage(), blogResponse);
 		     responseObj.put(MessageType.CurrentPage.getMessage(), pageable.getPageNumber());
 		     response.setResponse(responseObj);
