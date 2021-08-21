@@ -77,6 +77,7 @@ public class ThirdPartyChatController extends PublicApiController{
 		Page<UserChat> chatting = this.thirdPartyChatService
 				         .findChatBySenderId(user.getId(), pagable);
 		List<UserChatVO> userChatVOs = new LinkedList<UserChatVO>();
+		userChatConverter.setCurrentUserId(user.getId());
 		chatting.forEach(chat -> userChatVOs.add(userChatConverter.apply(chat)));
 		response = resHelper.res(userChatVOs, true, MessageType.Success.getMessage(), pagable);
 		return response;
@@ -98,6 +99,10 @@ public class ThirdPartyChatController extends PublicApiController{
 				         .findChatByRoom(chatRoom, pagable);
 	    List<UserChat> userChats = chatting.getContent();
 	   userChats = userChats.stream().filter(line->{
+		       if(line.getSenderId() != user.getId()) {
+		    	   String name = user.getFirstName()+ user.getLastName()==null?"":user.getLastName();
+		    	   line.setReciverName(name);
+		       }
 	    	return (line.getReciverId() == user.getId() || line.getSenderId() == user.getId());
 	    }).collect(Collectors.toList());
 		response = resHelper.res(userChats, true, MessageType.Success.getMessage(), pagable);

@@ -156,6 +156,7 @@ public class ThirdPartyChatServiceImpl implements ThirdPartyChatService {
          data.put("prod_id", String.valueOf(ads.getId()));
          data.put("sender_id", String.valueOf(sender.getId()));
         
+        
        
       //   Date maxDate = receiver.getToken().stream().filter(emp -> emp.getExpiryDate() != null).map(VerificationToken::getExpiryDate).max(Date::compareTo).get();
          Comparator<VerificationToken> comparator = Comparator.comparing(VerificationToken::getExpiryDate);
