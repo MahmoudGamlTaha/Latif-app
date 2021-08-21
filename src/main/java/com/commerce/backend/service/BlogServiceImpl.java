@@ -181,7 +181,9 @@ public class BlogServiceImpl implements BlogService{
                      .map(blogResponseConverter)
                      .collect(Collectors.toList());
 		     responseObj.put(MessageType.Data.getMessage(), blogResponse);
+		     responseObj.put(MessageType.CurrentPage.getMessage(), pageable.getPageNumber());
 		     response.setResponse(responseObj);
+		     
 		     response.setSuccess(true);
 		     response.setMsg(MessageType.Success.getMessage());
 		}catch(Exception ex) {

@@ -81,8 +81,8 @@ public class BlogController extends PublicApiController{
         return new ResponseEntity<BasicResponse>( response, status);
     }
 
-    @GetMapping("/blogs/blog-by-category/id={category}")
-    public ResponseEntity<BasicResponse> blogByCategory(@PathVariable Long category, @PathVariable(required = false) Optional<Integer> page, @PathVariable(required = false) Optional<Integer> size ){
+    @GetMapping("/blogs/blog-by-category")
+    public ResponseEntity<BasicResponse> blogByCategory(@RequestParam(value = "id") Long category, @RequestParam(required = false) Optional<Integer> page, @RequestParam(required = false) Optional<Integer> size ){
     	Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(SystemConstant.MOBILE_PAGE_SIZE));
     	BasicResponse response  = blogServiceImpl.findBlogByCategory(category, pageable);
     	HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
