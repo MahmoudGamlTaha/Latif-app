@@ -77,6 +77,7 @@ public class ThirdPartyChatController extends PublicApiController{
 		Page<UserChat> chatting = this.thirdPartyChatService
 				         .findChatBySenderId(user.getId(), pagable);
 		List<UserChatVO> userChatVOs = new LinkedList<UserChatVO>();
+		userChatConverter.setCurrentUserId(user.getId());
 		chatting.forEach(chat -> userChatVOs.add(userChatConverter.apply(chat)));
 		response = resHelper.res(userChatVOs, true, MessageType.Success.getMessage(), pagable);
 		return response;
