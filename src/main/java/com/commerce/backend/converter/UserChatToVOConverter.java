@@ -16,7 +16,7 @@ public class UserChatToVOConverter implements Function<UserChat, UserChatVO> {
      UserRepository userRepository; 
     
      HashMap<Long, User> hashMap = new HashMap<Long, User>();
-     
+     Long currentUserId;
     @Override
 	public UserChatVO apply(UserChat userChat) {
 		UserChatVO userChatVO = new UserChatVO();
@@ -26,21 +26,29 @@ public class UserChatToVOConverter implements Function<UserChat, UserChatVO> {
 		userChatVO.setReciverId(userChat.getReciverId());
 		userChatVO.setItemId(userChat.getItemId());
 		userChatVO.setRoom(userChat.getRoom());
-	    if(!hashMap.containsKey(userChat.getReciverId())) {
-	    	User user =this.userRepository.findById(userChat.getReciverId()).orElse(null);
-	    	hashMap.put(userChat.getReciverId(), user);
+		Long uId = userChat.getReciverId();
+	    if(!hashMap.containsKey(uId)) {
+	    
+	    	if(uId == currentUserId) {
+	    		uId = userChat.getSenderId();
+	    	}
+	    	User user =this.userRepository.findById(uId).orElse(null);
+	    	hashMap.put(uId, user);
 	    }
-	    User userKey = hashMap.get(userChat.getReciverId());
+	    User userKey = hashMap.get(uId);
 	    userChatVO.setReciverImage(userKey.getAvatar());
 	    String lname = userKey.getLastName() == null ? "" : " " + userKey.getLastName();
 	    userChatVO.setReciverName(userKey.getFirstName() + lname);
 	    
-	    if(hashMap.size()  > 1000) {
+	    if(hashMap.size()  > 3000) {
 	    	hashMap.clear();
 	    }
 		userChatVO.setSenderId(userChat.getSenderId());
 		userChatVO.setCreateAt(userChat.getCreateAt());
 		return userChatVO;
 	}
+    public void setCurrentUserId(Long uid) {
+    	this.currentUserId = uid;
+    }
 
 }
