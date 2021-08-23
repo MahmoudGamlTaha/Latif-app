@@ -22,7 +22,7 @@ public class CustomUserAdsCriteriaHelper {
    
 	@PersistenceContext(type  =  PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
-
+    private Object object = new Object(); 
 	private static final Logger loggerS = LoggerFactory.getLogger(CustomUserAdsCriteriaHelper.class);
 	
 	@Autowired
