@@ -3,7 +3,6 @@ package com.commerce.backend.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -23,7 +22,6 @@ public class CustomUserAdsCriteriaHelper {
    
 	@PersistenceContext(type  =  PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
-    private Object object = new Object(); 
 	private static final Logger loggerS = LoggerFactory.getLogger(CustomUserAdsCriteriaHelper.class);
 	
 	@Autowired
@@ -57,9 +55,9 @@ public class CustomUserAdsCriteriaHelper {
 		 this.loggerS.info("query:" + sql);
 		 this.loggerS.info("longitude"+longitude);
 		 this.loggerS.info("latitude"+latitude);
-		 this.entityManager.lock(UserAds.class, LockModeType.OPTIMISTIC);
+		
 		 Query query = this.entityManager.createNativeQuery(sql, UserAds.class);
-		 
+		
 		  query.setParameter("long", longitude);
 		  query.setParameter("lat",  latitude);
 		  query.setParameter("dist", distance);
@@ -77,16 +75,18 @@ public class CustomUserAdsCriteriaHelper {
 		  else {
 			  query.setParameter("other", true);
 		  }
-		  
+		  synchronized (UserAds.class) {
+			
 		  List<UserAds> userAds = query.
 				                         setFirstResult((int) pageable.getOffset())
 				                     //  .unwrap(org.hibernate.query.NativeQuery.class)
 				                    //   .addScalar("geom", new GeolatteGeometryType(PGGeometryTypeDescriptor.INSTANCE))
 				                         .setMaxResults(pageable.getPageSize())				                       
 	     			                     .getResultList();	
-		  this.entityManager.flush();
-		  this.entityManager.lock(UserAds.class, LockModeType.NONE);
+		
+		
 		 return userAds;
+		  }
 	 }
 	
 	public List<UserAds> find(AdsType type, Pageable pageable, Long category, Boolean active){
@@ -108,9 +108,9 @@ public class CustomUserAdsCriteriaHelper {
 		 sql = sql.replace("page_quey", paging);
 		 sql += " order by created_at desc";
 		 this.loggerS.info("query:" + sql);
-		 this.entityManager.lock(UserAds.class, LockModeType.OPTIMISTIC);
+		
 		 Query query = this.entityManager.createNativeQuery(sql, UserAds.class);
-		 
+		
 		  query.setParameter("size", pageable.getPageSize());
 		  if(type !=  AdsType.ALL) {
 			  query.setParameter("type", type.getType());
@@ -119,15 +119,17 @@ public class CustomUserAdsCriteriaHelper {
 			  query.setParameter("cat", category);
 		  }
 		    	
-		  @SuppressWarnings("unchecked")
-		List<UserAds> userAds = (List<UserAds>)query.
+		  
+		  synchronized(UserAds.class) {
+			  @SuppressWarnings("unchecked")
+			  List<UserAds> userAds = (List<UserAds>)query.
 				                          setFirstResult((int) pageable.getOffset())
 				                         .setMaxResults(pageable.getPageSize())
 	     			                     .getResultList();	
-		  
 		  this.entityManager.flush();
-		  this.entityManager.lock(UserAds.class, LockModeType.NONE);
+		  
 		 return userAds;
+		}
 	 }
 	 public Object getCountByCategory(Long categoryId){
 		 String queryString = "SELECT Count(*) FROM user_ads WHERE category_id = :catId";
