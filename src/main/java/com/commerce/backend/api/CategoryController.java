@@ -48,9 +48,6 @@ public class CategoryController extends PublicApiController {
     		                                                   @PathVariable(required = false) Optional<Integer> page,
     		                                                   @PathVariable(required =false) Optional<String> invoker ){
     	BasicResponse response;
-    	System.out.print("SSSSSSSSSSSS");
-    	System.out.print(invoker.get());
-    	System.out.print("SSSSSSSSSSSS");
     	if(!invoker.isPresent() || (invoker.isPresent() && invoker.get().equals("WEB"))) {
     	response = this.itemObjectCategoryService.findAllByTypeIdNoParent(adtypeId, page.orElse(0));
     	}else {
