@@ -22,7 +22,7 @@ public class CustomUserAdsCriteriaHelper {
    
 	@PersistenceContext(type  =  PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
-
+    private Object object = new Object(); 
 	private static final Logger loggerS = LoggerFactory.getLogger(CustomUserAdsCriteriaHelper.class);
 	
 	@Autowired
@@ -56,6 +56,7 @@ public class CustomUserAdsCriteriaHelper {
 		 this.loggerS.info("query:" + sql);
 		 this.loggerS.info("longitude"+longitude);
 		 this.loggerS.info("latitude"+latitude);
+		 
 		 Query query = this.entityManager.createNativeQuery(sql, UserAds.class);
 		 
 		  query.setParameter("long", longitude);
@@ -81,7 +82,7 @@ public class CustomUserAdsCriteriaHelper {
 				                    //   .addScalar("geom", new GeolatteGeometryType(PGGeometryTypeDescriptor.INSTANCE))
 				                         .setMaxResults(pageable.getPageSize())				                       
 	     			                     .getResultList();	
-
+		  this.entityManager.flush();
 		 return userAds;
 	 }
 	
@@ -119,6 +120,7 @@ public class CustomUserAdsCriteriaHelper {
 				                          setFirstResult((int) pageable.getOffset())
 				                         .setMaxResults(pageable.getPageSize())
 	     			                     .getResultList();	
+		  this.entityManager.flush();
 		 return userAds;
 	 }
 	 public Object getCountByCategory(Long categoryId){

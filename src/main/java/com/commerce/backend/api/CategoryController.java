@@ -42,11 +42,17 @@ public class CategoryController extends PublicApiController {
         this.itemObjectCategoryService = itemObjectCategoryService;
     }
 
-    @GetMapping(value = {"/cat-by-adType/type={adtypeId}", "/cat-by-adType/type={adtypeId}/{page}"})
+    @GetMapping(value = {"/cat-by-adType/type={adtypeId}", "/cat-by-adType/type={adtypeId}/{page}/{invoker}"})
     @ResponseBody
     public ResponseEntity<BasicResponse> getCategoryByAdsType(@PathVariable("adtypeId") Integer adtypeId, 
-    		                                                   @PathVariable(required = false) Optional<Integer> page){
-    	BasicResponse response = this.itemObjectCategoryService.findAllByTypeId(adtypeId, page.orElse(0));
+    		                                                   @PathVariable(required = false) Optional<Integer> page,
+    		                                                   @PathVariable(required =false) Optional<String> invoker ){
+    	BasicResponse response;
+    	if(invoker.isEmpty() || (invoker.isPresent() && invoker.get().equals("WEB"))) {
+    	response = this.itemObjectCategoryService.findAllByTypeIdNoParent(adtypeId, page.orElse(0));
+    	}else {
+    		response = this.itemObjectCategoryService.findAllByTypeId(adtypeId, page.orElse(0));
+    	}
     	HttpStatus status = response.getMsg() != MessageType.Success.getMessage()?HttpStatus.BAD_REQUEST: HttpStatus.OK;
     	return new ResponseEntity<BasicResponse>(response, status);
     }
