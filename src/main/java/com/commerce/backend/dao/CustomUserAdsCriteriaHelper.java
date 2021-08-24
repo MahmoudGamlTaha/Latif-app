@@ -3,6 +3,7 @@ package com.commerce.backend.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -56,7 +57,7 @@ public class CustomUserAdsCriteriaHelper {
 		 this.loggerS.info("query:" + sql);
 		 this.loggerS.info("longitude"+longitude);
 		 this.loggerS.info("latitude"+latitude);
-		 
+		 this.entityManager.lock(UserAds.class, LockModeType.OPTIMISTIC);
 		 Query query = this.entityManager.createNativeQuery(sql, UserAds.class);
 		 
 		  query.setParameter("long", longitude);
@@ -76,6 +77,7 @@ public class CustomUserAdsCriteriaHelper {
 		  else {
 			  query.setParameter("other", true);
 		  }
+		  
 		  List<UserAds> userAds = query.
 				                         setFirstResult((int) pageable.getOffset())
 				                     //  .unwrap(org.hibernate.query.NativeQuery.class)
@@ -83,6 +85,7 @@ public class CustomUserAdsCriteriaHelper {
 				                         .setMaxResults(pageable.getPageSize())				                       
 	     			                     .getResultList();	
 		  this.entityManager.flush();
+		  this.entityManager.lock(UserAds.class, LockModeType.NONE);
 		 return userAds;
 	 }
 	
@@ -105,6 +108,7 @@ public class CustomUserAdsCriteriaHelper {
 		 sql = sql.replace("page_quey", paging);
 		 sql += " order by created_at desc";
 		 this.loggerS.info("query:" + sql);
+		 this.entityManager.lock(UserAds.class, LockModeType.OPTIMISTIC);
 		 Query query = this.entityManager.createNativeQuery(sql, UserAds.class);
 		 
 		  query.setParameter("size", pageable.getPageSize());
@@ -120,7 +124,9 @@ public class CustomUserAdsCriteriaHelper {
 				                          setFirstResult((int) pageable.getOffset())
 				                         .setMaxResults(pageable.getPageSize())
 	     			                     .getResultList();	
+		  
 		  this.entityManager.flush();
+		  this.entityManager.lock(UserAds.class, LockModeType.NONE);
 		 return userAds;
 	 }
 	 public Object getCountByCategory(Long categoryId){
