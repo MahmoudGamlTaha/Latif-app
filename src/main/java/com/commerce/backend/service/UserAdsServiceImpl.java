@@ -29,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -44,11 +46,8 @@ import javax.persistence.*;
 import static java.lang.System.currentTimeMillis;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class UserAdsServiceImpl implements UserAdsService {
-
-	@PersistenceContext(type  =  PersistenceContextType.EXTENDED)
-	private EntityManager entityManager;
-
 	private UserPetsAdsRepository userPetsAdsRepository;
 	private UserServiceAdsRepository userServiceAdsRepository;
 	private UserItemsAdsRepository userItemsAdsRepository;
