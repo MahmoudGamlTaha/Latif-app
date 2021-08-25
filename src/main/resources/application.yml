@@ -76,7 +76,7 @@ security:
       /userRole/**
 swagger:
   host:
-    address: khedma-all.herokuapp.com/
+    address: khedma-all.herokuapp.com
     path: /
   api:
     name: khedma-all Documentation API
