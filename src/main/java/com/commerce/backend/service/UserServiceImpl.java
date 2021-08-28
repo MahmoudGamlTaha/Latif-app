@@ -15,6 +15,7 @@ import com.commerce.backend.model.entity.Cites;
 import com.commerce.backend.model.entity.ItemObjectCategory;
 import com.commerce.backend.model.entity.Role;
 import com.commerce.backend.model.entity.User;
+import com.commerce.backend.model.entity.UserLite;
 import com.commerce.backend.model.entity.VerificationToken;
 import com.commerce.backend.model.request.user.PasswordResetRequest;
 import com.commerce.backend.model.request.user.RegisterUserRequest;
@@ -442,5 +443,10 @@ public class UserServiceImpl implements UserService {
 		obj = this.userRepository.stopResumeUserPostAds(user_id, poser);
 		}
 		return obj;
+	}
+
+	@Override
+	public boolean isAuthorized(UserLite user) {
+		 return getCurrentUser().getId() == user.getId();
 	}
 }

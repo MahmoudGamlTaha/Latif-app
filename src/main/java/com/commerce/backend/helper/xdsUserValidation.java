@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 
 import com.commerce.backend.service.UserService;
 import com.commerce.backend.model.entity.SubscriptionTypes;
+import com.commerce.backend.model.entity.UserSubscription;
 @Component
 public class xdsUserValidation {
   @Autowired
    UserService userService;
   public boolean checkCreateAdsAvalibilty() {
-	  Set<SubscriptionTypes>  subscription  = this.userService.getCurrentUser().getSubscriptions();
+	  Set<UserSubscription>  subscription  = this.userService.getCurrentUser().getSubscriptions();
 	//  subscription.stream().filter(subs -> subs.geta)
 	  /*if(this.userService.getCurrentUser().getAds().size() <= ) {
 		  

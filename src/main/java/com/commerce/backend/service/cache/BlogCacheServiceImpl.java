@@ -12,6 +12,7 @@ import com.commerce.backend.model.entity.Blog;
 import com.commerce.backend.model.entity.BlogCategory;
 import com.commerce.backend.model.entity.BlogImage;
 import com.commerce.backend.model.entity.User;
+import com.commerce.backend.model.entity.UserLite;
 import com.commerce.backend.model.request.blog.BlogRequest;
 import com.commerce.backend.model.request.blog.UpdateBlogRequest;
 import com.commerce.backend.model.response.BasicResponse;
@@ -84,6 +85,11 @@ public class BlogCacheServiceImpl implements BlogCacheService{
         {
             throw new ResourceNotFoundException("Not Found");
         }
+        if(blog.getUserId() != null) {
+        	Integer prodCount = blogRepository.countByUser(blog.getUserId().getId());
+        	blog.getUserId().setProdCount(prodCount);
+        }
+       
         return blog;
     }
 
@@ -117,11 +123,13 @@ public class BlogCacheServiceImpl implements BlogCacheService{
     	HashMap<String, Object> hashMap = new HashMap<String, Object>();
         BlogCategory category = blogCategoryRepository.findById(blog.getCategory()).orElse(null);
         User user = this.userRepository.findById(blog.getUserId()).orElse(null);
+        UserLite userLite = new UserLite();
+        userLite.setId(user.getId());
         Blog entity = Blog.builder()
                 .title(blog.getTitle())
                 .description(blog.getDescription())
                 .category(category)
-                .userId(user)
+                .userId(userLite)
                 .active(true)
                 .path(path + "blogs")
                 .externalLink(external)
@@ -230,6 +238,7 @@ public class BlogCacheServiceImpl implements BlogCacheService{
             response.setSuccess(true);
             response.setMsg("Removed");
         }catch (Exception e){
+        	e.printStackTrace();
             response.setSuccess(false);
             response.setMsg("Error: "+ e);
         }

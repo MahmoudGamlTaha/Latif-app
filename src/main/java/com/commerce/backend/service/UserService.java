@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.commerce.backend.model.dto.UserDto;
 import com.commerce.backend.model.entity.User;
+import com.commerce.backend.model.entity.UserLite;
 import com.commerce.backend.model.request.user.PasswordResetRequest;
 import com.commerce.backend.model.request.user.RegisterUserRequest;
 import com.commerce.backend.model.request.user.UpdateUserAddressRequest;
@@ -50,6 +51,7 @@ public interface UserService {
     Object stopUserAdPoser(long user_id, boolean poser);
     
     boolean isAuthorized(User user);
+    boolean isAuthorized(UserLite user);
     
     boolean logout(Long id);
     

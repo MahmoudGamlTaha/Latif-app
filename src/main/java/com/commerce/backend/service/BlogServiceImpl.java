@@ -56,9 +56,13 @@ public class BlogServiceImpl implements BlogService{
       try {
             Page<Blog> blogList = blogCacheService.findAll(page);
         
-            List<BlogResponse> blogResponse =  blogList.get()
-                   .map(blogResponseConverter)
-                   .collect(Collectors.toList());
+            List<BlogResponse> blogResponse = new LinkedList<BlogResponse>();
+            		blogList.get().forEach(item -> {
+            		blogResponse.add(blogResponseConverter.apply(item));
+            			
+            		});
+                 //  .map(blogResponseConverter)
+                   //.collect(Collectors.toList());
         	hashMapResponse.put(MessageType.Data.getMessage(), blogResponse);
         	hashMapResponse.put(MessageType.CurrentPage.getMessage(), blogList.getNumber());
         	hashMapResponse.put(MessageType.TotalItems.getMessage(), blogList.getTotalElements());
@@ -67,6 +71,7 @@ public class BlogServiceImpl implements BlogService{
 
             response.setResponse(hashMapResponse);
     	}catch(Exception ex) {
+    		ex.printStackTrace();
     		response.setMsg(ex.getMessage());
     		hashMapResponse.put(MessageType.Data.getMessage(), ex.getStackTrace());
     		response.setResponse(hashMapResponse);
@@ -88,11 +93,12 @@ public class BlogServiceImpl implements BlogService{
         BasicResponse response = new BasicResponse();
         HashMap<String, Object> hashMapResponse = new HashMap<String, Object>();
         try {
-            BlogResponse blog = new BlogResponse(blogCacheService.findById(id));
+            BlogResponse blog = blogResponseConverter.apply(blogCacheService.findById(id));
             hashMapResponse.put(MessageType.Data.getMessage(), blog);
             response.setSuccess(true);
             response.setResponse(hashMapResponse);
         }catch(Exception ex) {
+        	ex.printStackTrace();
             response.setMsg(ex.getMessage());
             hashMapResponse.put(MessageType.Data.getMessage(), ex.getStackTrace());
             response.setResponse(hashMapResponse);

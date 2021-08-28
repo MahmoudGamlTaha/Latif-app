@@ -9,6 +9,7 @@ import com.commerce.backend.model.dto.CountryDTO;
 import com.commerce.backend.model.entity.Role;
 import com.commerce.backend.model.entity.SubscriptionTypes;
 import com.commerce.backend.model.entity.UserRole;
+import com.commerce.backend.model.entity.UserSubscription;
 
 import lombok.Data;
 
@@ -33,5 +34,5 @@ public class UserResponse {
     private Set<UserRole> roles;
     private Integer prodCount;
     private Boolean AdsPoserStatus;
-    private Set<SubscriptionTypes> subscriptions = new HashSet<>();
+    private Set<UserSubscription> subscriptions = new HashSet<>();
 }

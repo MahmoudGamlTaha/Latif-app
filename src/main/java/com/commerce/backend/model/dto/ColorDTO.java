@@ -10,4 +10,5 @@ import lombok.Data;
 public class ColorDTO {
     private String name;
     private String hex;
+    private Long id;
 }
