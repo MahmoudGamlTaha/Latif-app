@@ -135,7 +135,7 @@ public class ThirdPartyChatController extends PublicApiController{
 	}
 	
 	@GetMapping(value = "/chat/next-page-by-id")
-	public BasicResponse getChatByRoomMessage(@RequestParam(required =false) String message_id, @RequestParam String room) throws AccountNotFoundException {
+	public BasicResponse getChatByRoomMessage(@RequestParam(required =false) String message_id, @RequestParam(required =false) String room) throws AccountNotFoundException {
 		Pageable pageable = PageRequest.of(0, SystemConstant.MOBILE_PAGE_SIZE);
 		User user = this.userService.getCurrentUser(); 
 		if(user == null ) {
@@ -151,14 +151,16 @@ public class ThirdPartyChatController extends PublicApiController{
 		
 		}
 		ChatRoom chatRoom = new ChatRoom();
+		List<UserChat> userChats = new LinkedList<UserChat>();
+		if(room != null) {
 		chatRoom.setRoom(room);
 		Page<UserChat> chatting = this.thirdPartyChatService
 		         .findChatByRoom(chatRoom, pageable);
-			List<UserChat> userChats = chatting.getContent();
+			userChats = chatting.getContent();
 			userChats = userChats.stream().filter(line->{
 				return (line.getReciverId() == user.getId() || line.getSenderId() == user.getId());
 			}).collect(Collectors.toList());
-			
+		}
 			List<UserChatVO> userChatVOs = new LinkedList<UserChatVO>();
 			userChats.forEach(chat -> userChatVOs.add(userChatConverter.apply(chat)));
 			BasicResponse response = resHelper.res(userChatVOs, true, MessageType.Success.getMessage(), pageable);
