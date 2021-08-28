@@ -49,6 +49,7 @@ public class UserResponseConverter implements Function<User, UserResponse> {
 	 //      userResponse.setRole(user.getRoles());
 	      if(user.getAds() != null) {
 	        userResponse.setProdCount(user.getAds().size());
+	        userResponse.setAdsCount(userResponse.getProdCount());
 	        }
 	       userResponse.setSubscriptions(user.getSubscriptions());
     	}
@@ -84,6 +85,7 @@ public class UserResponseConverter implements Function<User, UserResponse> {
 	        userResponse.setActive(user.isActive());
 	        userResponse.setAdsPoserStatus(user.getAdsPoser());
 	        userResponse.setProdCount(user.getProdCount());
+	        userResponse.setAdsCount(user.getProdCount());
 	 //      userResponse.setRole(user.getRoles());
 	    
 	    //   userResponse.setSubscriptions(user.getSubscriptions());
