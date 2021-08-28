@@ -35,7 +35,7 @@ public class BlogResponse {
        
         if(blog.getCategory() != null) {
           this.category = blog.getCategory().getName();
-          this.categoryAr = blog.getCategory().getNameAr();
+          this.categoryAr = blog.getCategory().getNameAr() == null?this.category:blog.getCategory().getNameAr();
           this.category_id = blog.getCategory().getId();
         }
         if(blog.getBlogImage() != null) {
@@ -52,6 +52,6 @@ public class BlogResponse {
         this.path = blog.getPath();
         
         this.createdDate = blog.getCreated_at();
-        this.user = new UserResponseConverter().apply(blog.getUserId());
+        this.user = new UserResponseConverter().applyUserLite(blog.getUserId());
     }
 }

@@ -21,7 +21,8 @@ public class BlogResponseConverter implements Function<Blog, BlogResponse> {
 		    if(blog.getCategory() != null) {
 		    blogResponse.setCategory(blog.getCategory().getName());
 		    blogResponse.setCategory_id(blog.getCategory().getId());
-		    blogResponse.setCategoryAr(blog.getCategory().getNameAr());
+		    String categoryAr =  blog.getCategory().getNameAr() == null?blog.getCategory().getName():blog.getCategory().getNameAr();
+		    blogResponse.setCategoryAr(categoryAr);
 		    }
 		    if(blog.getBlogImage() != null) {
 		    	blogResponse.setImages(new HashSet<String>());
@@ -37,7 +38,7 @@ public class BlogResponseConverter implements Function<Blog, BlogResponse> {
 		    blogResponse.setImage(blog.getImage());
 		    blogResponse.setPath(blog.getPath());
 		    blogResponse.setExternalLink(blog.isExternalLink());
-		    blogResponse.setUser(new UserResponseConverter().apply(blog.getUserId()));
+		    blogResponse.setUser(new UserResponseConverter().applyUserLite(blog.getUserId()));
 		    blogResponse.setCreatedDate(blog.getCreated_at());
         }
         return blogResponse;

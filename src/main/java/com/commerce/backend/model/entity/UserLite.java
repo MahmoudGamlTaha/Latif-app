@@ -24,22 +24,13 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class UserLite {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
   @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
   private Long id;
 
-  //  TODO remove this and use cart repository findByUserId instead
-  //@JsonIgnore
-  //@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  //private Cart cart;
-
-  @JsonManagedReference
-  @OneToMany(mappedBy = "createdBy" ,fetch = FetchType.LAZY)
-  private Set<UserAds> ads;
-  
   @Column(name = "email", unique = true)
   private String email;
 
@@ -107,11 +98,6 @@ public class User {
   )
   @NotFound(action = NotFoundAction.IGNORE)
   private Set<Role> roles  = new HashSet<>();
-
-  @JsonManagedReference
-  @OneToMany
-  @JoinColumn(name = "user_id")
-  private Set<UserReportedAds> userReportedAds;
  
   @Column(name ="device")
   private String device;
@@ -134,4 +120,7 @@ public class User {
   @NotFound(action = NotFoundAction.IGNORE)
   @JsonManagedReference
   private Set<ItemObjectCategory> interestCategories  = new HashSet<>();
+ 
+  @Transient
+  private Integer prodCount;
 }

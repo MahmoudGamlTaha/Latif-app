@@ -1,6 +1,5 @@
 package com.commerce.backend.model.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,11 +21,11 @@ public class UserSubscription {
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_id")
-    private SubscriptionTypes subscriptionId;
+    private SubscriptionTypes subscription;
 
     @Column(name = "created_at")
     private Date createdAt;

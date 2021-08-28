@@ -8,6 +8,8 @@ import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -44,9 +46,10 @@ public class Blog {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinColumn(name = "user_id")
-    private User userId;
+    private UserLite userId;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "blog")
     private Set<BlogImage> blogImage;

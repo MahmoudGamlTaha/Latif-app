@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.commerce.backend.model.entity.SubscriptionTypes;
 import com.commerce.backend.model.entity.UserAds;
+import com.commerce.backend.model.entity.UserSubscription;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,5 +45,5 @@ public class UserVO {
 	  
 	  private int AdsCount;
 
-	  private Set<SubscriptionTypes> subscriptions = new HashSet<>();
+	  private Set<UserSubscription> subscriptions = new HashSet<>();
 }
