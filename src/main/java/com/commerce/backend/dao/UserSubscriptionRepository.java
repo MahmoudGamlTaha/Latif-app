@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface UserSubscriptionRepository extends JpaRepository<UserSubscription, Long> {
-    @Query(value = "SELECT us FROM UserSubscription us WHERE us.endDate > :now and us.userId = :user")
+    @Query(value = "SELECT us FROM UserSubscription us WHERE us.endDate > :now and us.user = :user")
     UserSubscription findByUserId(User user, Date now);
     Page<UserSubscription> findUserSubscriptionByUserId(User userId, Pageable pageable);
     Page<UserSubscription> findUserSubscriptionBySubscriptionId(SubscriptionTypes sub, Pageable pageable);

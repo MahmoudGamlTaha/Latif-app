@@ -37,8 +37,8 @@ public class UserSubscriptionConverter implements Function<UserSubscription, Use
     public UserSubscriptionVO apply(UserSubscription userSubscription) {
         UserSubscriptionVO vo = new UserSubscriptionVO();
         vo.setId(userSubscription.getId());
-        vo.setUser(userConverter.apply(userSubscription.getUserId()));
-        SubscriptionTypeVO subVo = converter.apply(userSubscription.getSubscriptionId());
+        vo.setUser(userConverter.apply(userSubscription.getUser()));
+        SubscriptionTypeVO subVo = converter.apply(userSubscription.getSubscription());
         vo.setSubscription(subVo);
         vo.setStartDate(userSubscription.getStartDate());
         vo.setEndDate(userSubscription.getEndDate());
@@ -53,8 +53,8 @@ public class UserSubscriptionConverter implements Function<UserSubscription, Use
         User user = userRepository.findById(request.getUserId()).orElse(null);
         SubscriptionTypes subType = subRepository.findById(request.getSubscriptionId()).orElse(null);
         if (subType != null && user != null) {
-            userSubscription.setUserId(user);
-            userSubscription.setSubscriptionId(subType);
+            userSubscription.setUser(user);
+            userSubscription.setSubscription(subType);
             userSubscription.setStartDate(new Date());
             Date currentDate = new Date();
             Calendar c = Calendar.getInstance();
@@ -69,11 +69,11 @@ public class UserSubscriptionConverter implements Function<UserSubscription, Use
 
     public UserSubscription update(UserSubscriptionRequest request, UserSubscription entity){
         if(request.getUserId() != null) {
-            userRepository.findById(request.getUserId()).ifPresent(entity::setUserId);
+            userRepository.findById(request.getUserId()).ifPresent(entity::setUser);
         }
         if(request.getSubscriptionId() != null) {
             SubscriptionTypes subType = subRepository.findById(request.getSubscriptionId()).orElse(null);
-            entity.setSubscriptionId(subType);
+            entity.setSubscription(subType);
         }
         entity.setUpdatedAt(new Date());
         return entity;

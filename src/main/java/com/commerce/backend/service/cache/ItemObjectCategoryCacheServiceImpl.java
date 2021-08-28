@@ -41,7 +41,6 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
 
     private final ItemObjectCategoryRepository itemObjectRepository;
     private final PetCategoryRepository petCategoryRepository;
-    private final ServiceCategoryRepository serviceCategoryRepository;
     private final ItemCategoryRepository itemCategoryRepository;
     private final ItemObjectCategoryResponseConverter itemObjectCategoryResponseConverter;
     private final UserService userService;
@@ -52,12 +51,11 @@ public class ItemObjectCategoryCacheServiceImpl implements ItemObjectCategoryCac
     public ItemObjectCategoryCacheServiceImpl(ItemObjectCategoryRepository productCategoryRepository,
     		PetCategoryRepository petCategoryRepository, ItemCategoryRepository itemCategoryRepository,
     		ItemObjectCategoryResponseConverter itemObjectCategoryResponseConverter,
-    		ServiceCategoryRepository serviceCategoryRepository, EntityManager entityManager, UserService userService) {
+    		 EntityManager entityManager, UserService userService) {
         this.itemObjectRepository = productCategoryRepository;
         this.petCategoryRepository = petCategoryRepository;
         this.itemCategoryRepository = itemCategoryRepository;
         this.itemObjectCategoryResponseConverter = itemObjectCategoryResponseConverter;
-        this.serviceCategoryRepository = serviceCategoryRepository;
         this.entityManager = entityManager;
         this.userService = userService;
     }
