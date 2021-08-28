@@ -33,6 +33,7 @@ public class UserResponse {
     private Set<Role> role;
     private Set<UserRole> roles;
     private Integer prodCount;
+    private Integer adsCount;
     private Boolean AdsPoserStatus;
     private Set<UserSubscription> subscriptions = new HashSet<>();
 }
