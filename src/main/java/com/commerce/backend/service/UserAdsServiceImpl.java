@@ -48,6 +48,7 @@ import static java.lang.System.currentTimeMillis;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class UserAdsServiceImpl implements UserAdsService {
+
 	private UserPetsAdsRepository userPetsAdsRepository;
 	private UserServiceAdsRepository userServiceAdsRepository;
 	private UserItemsAdsRepository userItemsAdsRepository;

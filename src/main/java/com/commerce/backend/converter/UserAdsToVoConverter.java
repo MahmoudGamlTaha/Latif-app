@@ -111,6 +111,7 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 			userAdsVo.setImages(imageVos);
 			
 		}
+		 String color = SystemConstant.ADS_COLOR;
 		if(entity.getCreatedBy() != null) {
 			UserVO user = new UserVO();
 			user.setId(entity.getCreatedBy().getId());
@@ -121,9 +122,12 @@ public class UserAdsToVoConverter implements Function< UserAds, UserAdsVO> {
 			user.setPhone(entity.getCreatedBy().getMobile());
 			user.setRegistrationDate(entity.getCreatedAt());
               if(entity.getCreatedBy().getSubscriptions() != null) {
-            	  Comparator<UserSubscription> comparator = Comparator.comparing(UserSubscription::getEndDate);
-            	//  String color = entity.getCreatedBy().getSubscriptions().stream().filter(ur -> ur.get).comparator(comparator);
+            //	  Comparator<UserSubscription> comparator = Comparator.comparing(UserSubscription::getEndDate);
+            	   UserSubscription userSubs = entity.getCreatedBy().getSubscriptions().stream().filter(ur -> ur.getEndDate().compareTo(new Date()) == -1).findFirst().orElse(null);
+            	   color = userSubs == null?SystemConstant.ADS_COLOR:userSubs.getSubscription().getColor().getHex();
+            	  userAdsVo.setSubs_color(color);
               }
+              userAdsVo.setSubs_color(color);
 			Set<UserAds> ads = entity.getCreatedBy().getAds();
 			if(ads != null) {
 			user.setAdsCount(ads.size());
