@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Long> {
 
-    @Query(value = "SELECT b FROM Blog b LEFT JOIN FETCH b.userId WHERE CONCAT(b.title, b.description) LIKE %?1% and b.active = true order by created_at desc ",
+    @Query(value = "SELECT b FROM Blog b LEFT JOIN FETCH b.userId WHERE CONCAT(b.title, b.description) LIKE %?1% and b.active = true order by b.created_at desc ",
             countQuery = "SELECT count(*) FROM Blog b WHERE b.active = true and CONCAT(b.title, b.description) LIKE %?1%",
             nativeQuery = false)
     Page<Blog> findAll(String keyword, Pageable pageable);
